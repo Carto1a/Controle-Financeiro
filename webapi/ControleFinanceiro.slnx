@@ -1,0 +1,15 @@
+<Solution>
+  <Configurations>
+    <Platform Name="Any CPU" />
+    <Platform Name="x64" />
+    <Platform Name="x86" />
+  </Configurations>
+  <Folder Name="/src/">
+    <Project Path="src/ControleFinanceiro.Application/ControleFinanceiro.Application.csproj" />
+    <Project Path="src/ControleFinanceiro.Domain/ControleFinanceiro.Domain.csproj" />
+    <Project Path="src/ControleFinanceiro.Infrastructure/ControleFinanceiro.Infrastructure.csproj" />
+  </Folder>
+  <Folder Name="/test/">
+    <Project Path="test/ControleFinanceiro.UnitTest/ControleFinanceiro.UnitTest.csproj" />
+  </Folder>
+</Solution>
