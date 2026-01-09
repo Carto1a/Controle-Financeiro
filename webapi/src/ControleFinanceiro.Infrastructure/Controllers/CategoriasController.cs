@@ -16,7 +16,7 @@ public class CategoriasController : ControllerBase
     {
         var result = await handler.Handle(request, cancellationToken);
         if (result.IsFailed)
-            return BadRequest(result);
+            return BadRequest(result.Errors);
 
         return Created();
     }
@@ -28,9 +28,9 @@ public class CategoriasController : ControllerBase
     {
         var result = await handler.Handle(cancellationToken);
         if (result.IsFailed)
-            return BadRequest(result);
+            return BadRequest(result.Errors);
 
-        return Ok(result);
+        return Ok(result.Value);
     }
 
     [HttpGet("detalhado")]
@@ -40,8 +40,8 @@ public class CategoriasController : ControllerBase
     {
         var result = await handler.Handle(cancellationToken);
         if (result.IsFailed)
-            return BadRequest(result);
+            return BadRequest(result.Errors);
 
-        return Ok(result);
+        return Ok(result.Value);
     }
 }

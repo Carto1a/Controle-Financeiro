@@ -3,6 +3,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ControleFinanceiro.Infrastructure.Controllers;
 
+[ApiController]
+[Area("Resumos")]
+[Route("[controller]")]
 public class ResumosController : ControllerBase
 {
     [HttpGet("financeiro/total")]
@@ -12,9 +15,9 @@ public class ResumosController : ControllerBase
     {
         var result = await handler.Handle(cancellationToken);
         if (result.IsFailed)
-            return BadRequest(result);
+            return BadRequest(result.Errors);
 
-        return Ok(result);
+        return Ok(result.Value);
     }
 
     [HttpGet("financeiro/pessoas")]
@@ -24,9 +27,9 @@ public class ResumosController : ControllerBase
     {
         var result = await handler.Handle(cancellationToken);
         if (result.IsFailed)
-            return BadRequest(result);
+            return BadRequest(result.Errors);
 
-        return Ok(result);
+        return Ok(result.Value);
     }
 
     [HttpGet("financeiro/categorias")]
@@ -36,8 +39,8 @@ public class ResumosController : ControllerBase
     {
         var result = await handler.Handle(cancellationToken);
         if (result.IsFailed)
-            return BadRequest(result);
+            return BadRequest(result.Errors);
 
-        return Ok(result);
+        return Ok(result.Value);
     }
 }

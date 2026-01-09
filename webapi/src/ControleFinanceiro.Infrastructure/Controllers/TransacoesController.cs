@@ -3,6 +3,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ControleFinanceiro.Infrastructure.Controllers;
 
+[ApiController]
+[Area("Transacao")]
+[Route("[controller]")]
 public class TransacoesController : ControllerBase
 {
     [HttpPost]
@@ -13,7 +16,7 @@ public class TransacoesController : ControllerBase
     {
         var result = await handler.Handle(request, cancellationToken);
         if (result.IsFailed)
-            return BadRequest(result);
+            return BadRequest(result.Errors);
 
         return Created();
     }
@@ -25,8 +28,8 @@ public class TransacoesController : ControllerBase
     {
         var result = await handler.Handle(cancellationToken);
         if (result.IsFailed)
-            return BadRequest(result);
+            return BadRequest(result.Errors);
 
-        return Ok(result);
+        return Ok(result.Errors);
     }
 }

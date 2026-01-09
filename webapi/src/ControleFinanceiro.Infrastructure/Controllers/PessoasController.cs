@@ -16,7 +16,7 @@ public class PessoaController : ControllerBase
     {
         var result = await handler.Handle(request, cancellationToken);
         if (result.IsFailed)
-            return BadRequest(result);
+            return BadRequest(result.Errors);
 
         return Created();
     }
@@ -29,7 +29,7 @@ public class PessoaController : ControllerBase
     {
         var result = await handler.Handle(id, cancellationToken);
         if (result.IsFailed)
-            return BadRequest(result);
+            return BadRequest(result.Errors);
 
         return Ok();
     }
@@ -41,9 +41,9 @@ public class PessoaController : ControllerBase
     {
         var result = await handler.Handle(cancellationToken);
         if (result.IsFailed)
-            return BadRequest(result);
+            return BadRequest(result.Errors);
 
-        return Ok(result);
+        return Ok(result.Value);
     }
 
     [HttpGet("detalhado")]
@@ -53,8 +53,8 @@ public class PessoaController : ControllerBase
     {
         var result = await handler.Handle(cancellationToken);
         if (result.IsFailed)
-            return BadRequest(result);
+            return BadRequest(result.Errors);
 
-        return Ok(result);
+        return Ok(result.Value);
     }
 }

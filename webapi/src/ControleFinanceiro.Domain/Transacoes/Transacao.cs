@@ -38,8 +38,8 @@ public class Transacao : AggregateRoot
             valor,
             tipoTransacao,
             categoriaId,
-            data ?? DateTime.Now,
-            DateTime.Now);
+            data ?? DateTime.UtcNow,
+            DateTime.UtcNow);
 
         return transacao;
     }

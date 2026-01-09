@@ -15,7 +15,7 @@ public class CriarPessoaCommandHandler(IPessoaRepository pessoaRepository, IUnit
     {
         cancellationToken.ThrowIfCancellationRequested();
 
-        var result = Pessoa.Criar(request.Nome, request.DataNascimento);
+        var result = Pessoa.Criar(request.Nome, request.DataNascimento.ToUniversalTime());
         if (result.IsFailed) return Result.Fail(result.Errors);
 
         _pessoaRepository.Criar(result.Value);

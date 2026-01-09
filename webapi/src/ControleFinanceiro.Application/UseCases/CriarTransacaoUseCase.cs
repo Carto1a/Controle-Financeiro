@@ -5,7 +5,7 @@ using FluentResults;
 
 namespace ControleFinanceiro.Application.UseCases;
 
-public record CriarTransacaoCommand(string Descricao, decimal Valor, TipoTransacao Tipo, Guid PessoaId, Guid CategoriaId, DateTime Data);
+public record CriarTransacaoCommand(string Descricao, decimal Valor, TipoTransacao Tipo, Guid PessoaId, Guid CategoriaId, DateTime? Data);
 
 public class CriarTransacaoCommandHandler(
     ITransacaoRepository transacaoRepository,
@@ -28,7 +28,7 @@ public class CriarTransacaoCommandHandler(
         var categoria = await _categoriaRepository.BuscarPorIdAsync(request.CategoriaId, cancellationToken);
         if (categoria is null) return Result.Fail("não foi possivel achar a categoria solicitada");
 
-        var result = CadastrarTransacaoService.Cadastrar(pessoa, categoria, request.Descricao, request.Valor, request.Tipo, request.Data);
+        var result = CadastrarTransacaoService.Cadastrar(pessoa, categoria, request.Descricao, request.Valor, request.Tipo, request.Data?.ToUniversalTime());
         if (result.IsFailed) return Result.Fail(result.Errors);
 
         _transacaoRepository.Criar(result.Value);
