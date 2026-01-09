@@ -7,9 +7,8 @@ public class RemoverTransacoesAoDeletarPessoaEventHandler(ITransacaoRepository t
 {
     private readonly ITransacaoRepository _transacaoRepository = transacaoRepository;
 
-    public Task Handle(PessoaDeletadaEvent evt)
+    public Task Handle(PessoaDeletadaEvent evt, CancellationToken cancellationToken = default)
     {
-        _transacaoRepository.DeletarPorPessoaId(evt.PessoaId);
-        return Task.CompletedTask;
+        return _transacaoRepository.DeletarPorPessoaIdAsync(evt.PessoaId, cancellationToken);
     }
 }

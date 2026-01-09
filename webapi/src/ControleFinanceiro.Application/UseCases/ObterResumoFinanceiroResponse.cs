@@ -9,6 +9,6 @@ public record ResumoFinanceiroValoresResponse
 
 public record ResumoFinanceiroResponse : ResumoFinanceiroValoresResponse
 {
-    public Guid PessoaId { get; init; }
+    public Guid Id { get; init; }
     public string Nome { get; init; } = default!;
 }
