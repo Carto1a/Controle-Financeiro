@@ -11,4 +11,8 @@ public interface IQueries
     Task<List<ObterListaPessoasDetalhadaResponse>> ObterListaPessoasDetalhada(CancellationToken cancellationToken = default);
 
     Task<List<ObterListaTransacoesDetalhadaResponse>> ObterListaTransacoesDetalhada(CancellationToken cancellationToken = default);
+
+    Task<List<ResumoFinanceiroResponse>> ObterResumoFinanceiroPorCategoria(CancellationToken cancellationToken = default);
+    Task<List<ResumoFinanceiroResponse>> ObterResumoFinanceiroPorPessoa(CancellationToken cancellationToken = default);
+    Task<ResumoFinanceiroValoresResponse> ObterResumoFinanceiroTotal(CancellationToken cancellationToken = default);
 }
