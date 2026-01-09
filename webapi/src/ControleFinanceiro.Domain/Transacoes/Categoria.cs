@@ -21,10 +21,10 @@ public class Categoria
     public static Result<Categoria> Criar(string nome, string descricao, Finalidade finalidade)
     {
         if (string.IsNullOrWhiteSpace(descricao))
-            return Result.Fail("O descricao é obrigatório e não pode ser vazio ou conter apenas espaços em branco");
+            return Result.Fail("Descricao é obrigatório/a e não pode ser vazio/a ou conter apenas espaços em branco");
 
         if (string.IsNullOrWhiteSpace(nome))
-            return Result.Fail("O nome é obrigatório e não pode ser vazio ou conter apenas espaços em branco");
+            return Result.Fail("Nome é obrigatório/a e não pode ser vazio/a ou conter apenas espaços em branco");
 
         var categoria = new Categoria(Guid.NewGuid(), nome, descricao, finalidade);
 
@@ -34,10 +34,10 @@ public class Categoria
     public Result TipoTransacaoValido(TipoTransacao tipo)
     {
         if (tipo == TipoTransacao.Despesa && Finalidade == Finalidade.Receita)
-            return Result.Fail("A transação do tipo 'Despesa' é incompatível com a finalidade 'Receita'");
+            return Result.Fail("Transação do tipo 'Despesa' é incompatível com a finalidade 'Receita'");
 
         if (tipo == TipoTransacao.Receita && Finalidade == Finalidade.Despesa)
-            return Result.Fail("A transação do tipo 'Receita' é incompatível com a finalidade 'Despesa'");
+            return Result.Fail("Transação do tipo 'Receita' é incompatível com a finalidade 'Despesa'");
 
         return Result.Ok();
     }

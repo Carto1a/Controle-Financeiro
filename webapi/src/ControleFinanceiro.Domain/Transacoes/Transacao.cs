@@ -27,7 +27,7 @@ public class Transacao : AggregateRoot
     internal static Result<Transacao> Criar(string descricao, decimal valor, TipoTransacao tipoTransacao, Guid categoriaId, DateTime? data)
     {
         if (string.IsNullOrWhiteSpace(descricao))
-            return Result.Fail("O descricao é obrigatório e não pode ser vazio ou conter apenas espaços em branco");
+            return Result.Fail("Descricao é obrigatório/a e não pode ser vazio/a ou conter apenas espaços em branco");
 
         var transacao = new Transacao(
             Guid.NewGuid(),

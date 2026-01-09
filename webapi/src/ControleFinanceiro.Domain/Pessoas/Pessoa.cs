@@ -50,9 +50,9 @@ public class Pessoa : AggregateRoot
         var erros = new List<Error>();
 
         if (string.IsNullOrWhiteSpace(nome))
-            erros.Add(new("O nome é obrigatório e não pode ser vazio ou conter apenas espaços em branco"));
+            erros.Add(new("Nome é obrigatório/a e não pode ser vazio/a ou conter apenas espaços em branco"));
         if (CalcularIdade(DateTime.Today, dataNascimento) < 0)
-            erros.Add(new("A data de nascimento é inválida, pois está no futuro"));
+            erros.Add(new("Data de nascimento é inválida, pois está no futuro"));
 
         return erros.Count > 0? Result.Fail(erros) : Result.Ok();
     }
