@@ -52,7 +52,7 @@ public class AppDbContext : DbContext
             .Select(entry => entry.Entity)
             .SelectMany(entity =>
             {
-                IList<IDomainEvent> domainEvents = (IList<IDomainEvent>)entity.DomainEvents;
+                IList<IDomainEvent> domainEvents = [.. entity.DomainEvents];
 
                 entity.ClearEvents();
 

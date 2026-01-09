@@ -14,8 +14,10 @@ public class CadastrarTransacaoService
         if (resultCategoria.IsFailed)
             return resultCategoria;
 
-        var transacao = Transacao.Criar(descricao, valor, tipoTransacao, categoria.Id, data);
+        var result = Transacao.Criar(descricao, valor, tipoTransacao, categoria.Id, data);
 
-        return transacao;
+        pessoa.AdicionarTransacao(result.Value);
+
+        return result;
     }
 }

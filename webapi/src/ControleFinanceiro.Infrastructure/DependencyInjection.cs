@@ -1,5 +1,6 @@
 using ControleFinanceiro.Application.DataLayer;
 using ControleFinanceiro.Application.UseCases;
+using ControleFinanceiro.Domain;
 using ControleFinanceiro.Domain.EventHandlers;
 using ControleFinanceiro.Domain.Pessoas;
 using ControleFinanceiro.Domain.Transacoes;
@@ -23,7 +24,7 @@ public static class DependencyInjection
         services.AddScoped<ITransacaoRepository, TransacaoRepository>();
         services.AddScoped<IQueries, Queries>();
 
-        services.AddScoped<RemoverTransacoesAoDeletarPessoaEventHandler>();
+        services.AddScoped<IDomainEventHandler<PessoaDeletadaEvent>, RemoverTransacoesAoDeletarPessoaEventHandler>();
 
         services.AddScoped<CriarCategoriaCommandHandler>();
         services.AddScoped<CriarPessoaCommandHandler>();

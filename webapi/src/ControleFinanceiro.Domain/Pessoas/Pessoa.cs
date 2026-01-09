@@ -8,7 +8,7 @@ public class Pessoa : AggregateRoot
     public Guid Id { get; private set; }
     public string Nome { get; private set; }
     public DateTime DataNascimento { get; private set; }
-    public List<Transacao> Transacaos { get; private set; }
+    public List<Transacao> Transacaos { get; private set; } = [];
     public int Idade { get => CalcularIdade(DateTime.Today, DataNascimento); }
 
     private Pessoa() { }
@@ -44,6 +44,8 @@ public class Pessoa : AggregateRoot
     {
         AddDomainEvent(new PessoaDeletadaEvent(Id));
     }
+
+    public void AdicionarTransacao(Transacao transacao) => Transacaos.Add(transacao);
 
     public static Result Validar(string nome, DateTime dataNascimento)
     {

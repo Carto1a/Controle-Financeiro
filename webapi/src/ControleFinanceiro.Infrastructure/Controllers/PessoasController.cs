@@ -21,7 +21,7 @@ public class PessoaController : ControllerBase
         return Created();
     }
 
-    [HttpDelete(":Id")]
+    [HttpDelete("{id}")]
     public async Task<IActionResult> Deletar(
         [FromServices] DeletarPessoaCommandHandler handler,
         [FromRoute] Guid id,
