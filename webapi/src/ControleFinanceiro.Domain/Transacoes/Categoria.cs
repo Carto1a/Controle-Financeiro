@@ -16,6 +16,16 @@ public class Categoria
         Finalidade = finalidade;
     }
 
+    public static Result<Categoria> Criar(string descricao, Finalidade finalidade)
+    {
+        if (string.IsNullOrWhiteSpace(descricao))
+            return Result.Fail("O descricao é obrigatório e não pode ser vazio ou conter apenas espaços em branco");
+
+        var categoria = new Categoria(Guid.NewGuid(), descricao, finalidade);
+
+        return categoria;
+    }
+
     public Result TipoTransacaoValido(TipoTransacao tipo)
     {
         if (tipo == TipoTransacao.Despesa && Finalidade == Finalidade.Receita)
