@@ -12,7 +12,7 @@ public record ObterListaTransacoesDetalhadaResponse(
     DateTime Data,
     DateTime CriadoEm);
 
-public class ObterListaTransacoesDetalhadaCommandHandler(IQueries queries)
+public class ObterListaTransacoesDetalhadaQueryHandler(IQueries queries)
 {
     private readonly IQueries _queries = queries;
 

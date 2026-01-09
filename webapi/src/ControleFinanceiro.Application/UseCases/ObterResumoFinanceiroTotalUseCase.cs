@@ -5,7 +5,7 @@ namespace ControleFinanceiro.Application.UseCases;
 
 public record ObterResumoFinanceiroTotalResponse(Guid Id, string Nome);
 
-public class ObterResumoFinanceiroTotalCommandHandler(IQueries queries)
+public class ObterResumoFinanceiroTotalQueryHandler(IQueries queries)
 {
     private readonly IQueries _queries = queries;
 

@@ -6,7 +6,7 @@ namespace ControleFinanceiro.Application.UseCases;
 
 public record ObterListaCategoriasDetalhadaResponse(Guid Id, string Descricao, Finalidade Finalidade);
 
-public class ObterListaCategoriasDetalhadaCommandHandler(IQueries queries)
+public class ObterListaCategoriasDetalhadaQueryHandler(IQueries queries)
 {
     private readonly IQueries _queries = queries;
 

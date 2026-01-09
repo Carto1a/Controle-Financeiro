@@ -5,7 +5,7 @@ namespace ControleFinanceiro.Application.UseCases;
 
 public record ObterListaPessoasBasicaResponse(Guid Id, string Nome);
 
-public class ObterListaPessoasBasicaCommandHandler(IQueries queries)
+public class ObterListaPessoasBasicaQueryHandler(IQueries queries)
 {
     private readonly IQueries _queries = queries;
 

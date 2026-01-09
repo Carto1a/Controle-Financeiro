@@ -3,7 +3,7 @@ using FluentResults;
 
 namespace ControleFinanceiro.Application.UseCases;
 
-public class ObterResumoFinanceiroPorPessoaCommandHandler(IQueries queries)
+public class ObterResumoFinanceiroPorPessoaQueryHandler(IQueries queries)
 {
     private readonly IQueries _queries = queries;
 
