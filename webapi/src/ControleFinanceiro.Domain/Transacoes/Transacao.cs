@@ -2,7 +2,7 @@ using FluentResults;
 
 namespace ControleFinanceiro.Domain.Transacoes;
 
-public class Transacao
+public class Transacao : AggregateRoot
 {
     public Guid Id { get; private set; }
     public string Descricao { get; private set; }

@@ -3,7 +3,7 @@ using FluentResults;
 
 namespace ControleFinanceiro.Domain.Pessoas;
 
-public class Pessoa
+public class Pessoa : AggregateRoot
 {
     public Guid Id { get; private set; }
     public string Nome { get; private set; }
@@ -40,9 +40,9 @@ public class Pessoa
         return Result.Ok();
     }
 
-    public void Deletar()
+    public void MarcarDeletada()
     {
-        Transacaos.Clear();
+        AddDomainEvent(new PessoaDeletadaEvent(Id));
     }
 
     public static Result Validar(string nome, DateTime dataNascimento)
