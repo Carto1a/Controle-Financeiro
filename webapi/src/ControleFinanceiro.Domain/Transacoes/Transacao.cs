@@ -29,6 +29,9 @@ public class Transacao : AggregateRoot
         if (string.IsNullOrWhiteSpace(descricao))
             return Result.Fail("Descricao é obrigatório/a e não pode ser vazio/a ou conter apenas espaços em branco");
 
+        if (valor <= 0)
+            return Result.Fail("O valor da transação deve ser maior que zero");
+
         var transacao = new Transacao(
             Guid.NewGuid(),
             descricao,
