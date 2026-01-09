@@ -9,6 +9,6 @@ public class ObterResumoFinanceiroTotalQueryHandler(IQueries queries)
 {
     private readonly IQueries _queries = queries;
 
-    public async Task<Result<ResumoFinanceiroValoresResponse>> Handle()
-        => await _queries.ObterResumoFinanceiroTotal();
+    public async Task<Result<ResumoFinanceiroValoresResponse>> Handle(CancellationToken cancellationToken = default)
+        => await _queries.ObterResumoFinanceiroTotal(cancellationToken);
 }

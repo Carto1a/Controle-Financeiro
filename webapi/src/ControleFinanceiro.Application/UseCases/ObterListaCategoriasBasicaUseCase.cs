@@ -9,6 +9,6 @@ public class ObterListaCategoriasBasicaQueryHandler(IQueries queries)
 {
     private readonly IQueries _queries = queries;
 
-    public async Task<Result<List<ObterListaCategoriasBasicaResponse>>> Handle()
-        => await _queries.ObterListaCategoriasBasica();
+    public async Task<Result<List<ObterListaCategoriasBasicaResponse>>> Handle(CancellationToken cancellationToken = default)
+        => await _queries.ObterListaCategoriasBasica(cancellationToken);
 }

@@ -16,6 +16,6 @@ public class ObterListaTransacoesDetalhadaQueryHandler(IQueries queries)
 {
     private readonly IQueries _queries = queries;
 
-    public async Task<Result<List<ObterListaTransacoesDetalhadaResponse>>> Handle()
-        => await _queries.ObterListaTransacoesDetalhada();
+    public async Task<Result<List<ObterListaTransacoesDetalhadaResponse>>> Handle(CancellationToken cancellationToken = default)
+        => await _queries.ObterListaTransacoesDetalhada(cancellationToken);
 }

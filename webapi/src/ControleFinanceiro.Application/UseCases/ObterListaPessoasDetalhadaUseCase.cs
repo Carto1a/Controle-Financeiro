@@ -9,6 +9,6 @@ public class ObterListaPessoasDetalhadaQueryHandler(IQueries queries)
 {
     private readonly IQueries _queries = queries;
 
-    public async Task<Result<List<ObterListaPessoasDetalhadaResponse>>> Handle()
-        => await _queries.ObterListaPessoasDetalhada();
+    public async Task<Result<List<ObterListaPessoasDetalhadaResponse>>> Handle(CancellationToken cancellationToken)
+        => await _queries.ObterListaPessoasDetalhada(cancellationToken);
 }
