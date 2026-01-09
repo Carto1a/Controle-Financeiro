@@ -4,11 +4,11 @@ namespace ControleFinanceiro.Application.DataLayer;
 
 public interface IQueries
 {
-    Task<ObterListaCategoriasBasicaResponse> ObterListaCategoriasBasica(CancellationToken cancellationToken = default);
-    Task<ObterListaCategoriasDetalhadaResponse> ObterListaCategoriasDetalhada(CancellationToken cancellationToken = default);
+    Task<List<ObterListaCategoriasBasicaResponse>> ObterListaCategoriasBasica(CancellationToken cancellationToken = default);
+    Task<List<ObterListaCategoriasDetalhadaResponse>> ObterListaCategoriasDetalhada(CancellationToken cancellationToken = default);
 
-    Task<ObterListaPessoasBasicaResponse> ObterListaPessoasBasica(CancellationToken cancellationToken = default);
-    Task<ObterListaPessoasDetalhadaResponse> ObterListaPessoasDetalhada(CancellationToken cancellationToken = default);
+    Task<List<ObterListaPessoasBasicaResponse>> ObterListaPessoasBasica(CancellationToken cancellationToken = default);
+    Task<List<ObterListaPessoasDetalhadaResponse>> ObterListaPessoasDetalhada(CancellationToken cancellationToken = default);
 
-    Task<ObterListaTransacoesDetalhadaResponse> ObterListaTransacoesDetalhada(CancellationToken cancellationToken = default);
+    Task<List<ObterListaTransacoesDetalhadaResponse>> ObterListaTransacoesDetalhada(CancellationToken cancellationToken = default);
 }

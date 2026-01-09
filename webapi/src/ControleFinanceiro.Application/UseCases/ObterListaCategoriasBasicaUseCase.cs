@@ -9,6 +9,6 @@ public class ObterListaCategoriasBasicaCommandHandler(IQueries queries)
 {
     private readonly IQueries _queries = queries;
 
-    public async Task<Result<ObterListaCategoriasBasicaResponse>> Handle()
+    public async Task<Result<List<ObterListaCategoriasBasicaResponse>>> Handle()
         => await _queries.ObterListaCategoriasBasica();
 }

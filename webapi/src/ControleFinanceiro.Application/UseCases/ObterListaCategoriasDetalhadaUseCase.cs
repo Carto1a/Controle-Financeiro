@@ -10,6 +10,6 @@ public class ObterListaCategoriasDetalhadaCommandHandler(IQueries queries)
 {
     private readonly IQueries _queries = queries;
 
-    public async Task<Result<ObterListaCategoriasDetalhadaResponse>> Handle()
+    public async Task<Result<List<ObterListaCategoriasDetalhadaResponse>>> Handle()
         => await _queries.ObterListaCategoriasDetalhada();
 }
