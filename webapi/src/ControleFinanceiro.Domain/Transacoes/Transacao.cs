@@ -1,4 +1,3 @@
-using ControleFinanceiro.Domain.Pessoas;
 using FluentResults;
 
 namespace ControleFinanceiro.Domain.Transacoes;
@@ -25,21 +24,17 @@ public class Transacao
         CriadoEm = criadoEm;
     }
 
-    public static Result<Transacao> Criar(string descricao, decimal valor, Pessoa pessoa, TipoTransacao tipoTransacao, Categoria categoria, DateTime? data)
+    internal static Result<Transacao> Criar(string descricao, decimal valor, TipoTransacao tipoTransacao, Guid categoriaId, DateTime? data)
     {
-        if (pessoa.MenorDeIdade() && tipoTransacao != TipoTransacao.Despesa)
-            return Result.Fail("Pessoas menores de idade só podem registrar transações do tipo 'Despesa'");
-
-        var resultCategoria = categoria.TipoTransacaoValido(tipoTransacao);
-        if (resultCategoria.IsFailed)
-            return resultCategoria;
+        if (string.IsNullOrWhiteSpace(descricao))
+            return Result.Fail("O descricao é obrigatório e não pode ser vazio ou conter apenas espaços em branco");
 
         var transacao = new Transacao(
             Guid.NewGuid(),
             descricao,
             valor,
             tipoTransacao,
-            categoria.Id,
+            categoriaId,
             data ?? DateTime.Now,
             DateTime.Now);
 
