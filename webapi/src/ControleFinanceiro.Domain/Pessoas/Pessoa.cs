@@ -54,7 +54,7 @@ public class Pessoa : AggregateRoot
         if (CalcularIdade(DateTime.Today, dataNascimento) < 0)
             erros.Add(new("Data de nascimento é inválida, pois está no futuro"));
 
-        return erros.Count > 0? Result.Fail(erros) : Result.Ok();
+        return erros.Count > 0 ? Result.Fail(erros) : Result.Ok();
     }
 
     public bool MenorDeIdade() => Idade < 18;
