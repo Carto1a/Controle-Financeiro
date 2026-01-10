@@ -1,0 +1,37 @@
+services:
+  backend:
+    image: controle-financeiro-api
+    build:
+      context: ./webapi/src/
+      dockerfile: ControleFinanceiro.Infrastructure/dockerfile
+    ports:
+      - "8080:8080"
+    networks:
+      - controle-financeiro
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      ConnectionStrings__Database: Host=db;Port=5432;Username=${DB_USER};Password=${DB_PASSWORD};Database=ControleFinanceiro
+
+  db:
+    image: postgres
+    container_name: controle-financeiro-db
+    environment:
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ControleFinanceiro
+    ports:
+      - "5432:5432"
+    restart: unless-stopped
+    networks:
+      - controle-financeiro
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U ${DB_USER} -d ControleFinanceiro" ]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
+networks:
+  controle-financeiro:
+    driver: bridge
