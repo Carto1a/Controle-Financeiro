@@ -1,4 +1,4 @@
-import { api } from "../api/axios";
+import { api, type Paginated } from "../api/axios";
 
 export const CategoriaFinalidade = {
   despesa: 0,
@@ -27,7 +27,7 @@ export interface CategoriaSimples {
 
 export const categoriasService = {
   listar: async (): Promise<CategoriaSimples[]> => (await api.get('/categorias')).data,
-  listarDetalhado: async (): Promise<Categoria[]> => (await api.get('/categorias/detalhado')).data,
+  listarDetalhado: async (): Promise<Paginated<Categoria[]>> => (await api.get('/categorias/detalhado')).data,
   criar: async (data: CriarCategoriaCommand): Promise<void> =>
     (await api.post('/categorias', data)).data,
 };
