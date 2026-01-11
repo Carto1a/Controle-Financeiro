@@ -26,8 +26,12 @@ export interface CategoriaSimples {
 }
 
 export const categoriasService = {
-  listar: async (): Promise<CategoriaSimples[]> => (await api.get('/categorias')).data,
-  listarDetalhado: async (): Promise<Paginated<Categoria[]>> => (await api.get('/categorias/detalhado')).data,
+  listar: async (signal: AbortSignal | undefined = undefined): Promise<CategoriaSimples[]> =>
+    (await api.get('/categorias', { signal: signal })).data,
+
+  listarDetalhado: async (signal: AbortSignal | undefined = undefined): Promise<Paginated<Categoria[]>> =>
+    (await api.get('/categorias/detalhado', { signal: signal })).data,
+
   criar: async (data: CriarCategoriaCommand, signal: AbortSignal | undefined = undefined): Promise<void> =>
     (await api.post('/categorias', data, { signal: signal })).data,
 };

@@ -17,11 +17,16 @@ export interface PessoaSimples {
 }
 
 export const pessoaService = {
-  listar: async (): Promise<PessoaSimples[]> => (await api.get('/pessoa')).data,
-  listarDetalhado: async (): Promise<Pessoa[]> => (await api.get('/pessoa/detalhado')).data,
-  criar: async (data: CriarPessoaCommand): Promise<void> =>
-    (await api.post('/pessoa', data)).data,
-  deletar: async (id: string): Promise<void> =>
-    (await api.delete(`/pessoa/${id}`)).data,
+  listar: async (signal: AbortSignal | undefined = undefined): Promise<PessoaSimples[]> =>
+    (await api.get('/pessoa', { signal: signal })).data,
+
+  listarDetalhado: async (signal: AbortSignal | undefined = undefined): Promise<Pessoa[]> =>
+    (await api.get('/pessoa/detalhado', { signal: signal })).data,
+
+  criar: async (data: CriarPessoaCommand, signal: AbortSignal | undefined = undefined): Promise<void> =>
+    (await api.post('/pessoa', data, { signal: signal })).data,
+
+  deletar: async (id: string, signal: AbortSignal | undefined = undefined): Promise<void> =>
+    (await api.delete(`/pessoa/${id}`, { signal: signal })).data,
 };
 

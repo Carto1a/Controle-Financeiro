@@ -26,9 +26,10 @@ export interface Transacao {
 }
 
 export const transacoesService = {
-  criar: async (data: CriarTransacaoCommand): Promise<void> =>
-    (await api.post('/transacoes', data)).data,
-  listarDetalhado: async (): Promise<Transacao[]> =>
-    (await api.get('/transacoes/detalhado')).data,
+  criar: async (data: CriarTransacaoCommand, signal: AbortSignal | undefined = undefined): Promise<void> =>
+    (await api.post('/transacoes', data, { signal: signal })).data,
+
+  listarDetalhado: async (signal: AbortSignal | undefined = undefined): Promise<Transacao[]> =>
+    (await api.get('/transacoes/detalhado', { signal: signal })).data,
 };
 

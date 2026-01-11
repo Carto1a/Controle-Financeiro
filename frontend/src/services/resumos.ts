@@ -12,11 +12,13 @@ export interface ResumoFinanceiro extends ResumoFinanceiroTotal {
 }
 
 export const resumosService = {
-  totalFinanceiro: async (): Promise<ResumoFinanceiroTotal> =>
-    (await api.get('/resumos/financeiro/total')).data,
-  porPessoa: async (): Promise<ResumoFinanceiro[]> =>
-    (await api.get('/resumos/financeiro/pessoas')).data,
-  porCategoria: async (): Promise<ResumoFinanceiro[]> =>
-    (await api.get('/resumos/financeiro/categorias')).data,
+  totalFinanceiro: async (signal: AbortSignal | undefined = undefined): Promise<ResumoFinanceiroTotal> =>
+    (await api.get('/resumos/financeiro/total', { signal: signal })).data,
+
+  porPessoa: async (signal: AbortSignal | undefined = undefined): Promise<ResumoFinanceiro[]> =>
+    (await api.get('/resumos/financeiro/pessoas', { signal: signal })).data,
+
+  porCategoria: async (signal: AbortSignal | undefined = undefined): Promise<ResumoFinanceiro[]> =>
+    (await api.get('/resumos/financeiro/categorias', { signal: signal })).data,
 };
 
