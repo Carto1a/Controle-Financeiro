@@ -29,7 +29,7 @@ export const categoriasService = {
   listar: async (signal: AbortSignal | undefined = undefined): Promise<CategoriaSimples[]> =>
     (await api.get('/categorias', { signal: signal })).data,
 
-  listarDetalhado: async (signal: AbortSignal | undefined = undefined): Promise<Paginated<Categoria[]>> =>
+  listarDetalhado: async (signal: AbortSignal | undefined = undefined): Promise<Paginated<Categoria>> =>
     (await api.get('/categorias/detalhado', { signal: signal })).data,
 
   criar: async (data: CriarCategoriaCommand, signal: AbortSignal | undefined = undefined): Promise<void> =>

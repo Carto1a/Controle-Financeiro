@@ -15,7 +15,7 @@ export default function ManagerCategorias() {
     pageSize: 10,
   })
 
-  const columns: ColumnDef<Categoria[]>[] = [
+  const columns: ColumnDef<Categoria>[] = [
     {
       header: "Valor",
       accessorKey: "value"
@@ -24,7 +24,7 @@ export default function ManagerCategorias() {
 
   const defaultData = useMemo(() => [], [])
 
-  const dataQuery = useQuery<Paginated<Categoria[]>, unknown>({
+  const dataQuery = useQuery<Paginated<Categoria>, unknown>({
     queryKey: ['data', pagination],
     queryFn: () => categoriasService.listarDetalhado(),
     placeholderData: keepPreviousData,

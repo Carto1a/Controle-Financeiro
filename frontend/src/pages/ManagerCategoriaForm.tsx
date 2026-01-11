@@ -121,7 +121,7 @@ export default function ManagerCategoriaForm(props: ManagerCategoriaFormProps) {
           <Button type="button" variant="soft" color="gray" onClick={handleCancel}>
             Cancelar
           </Button>
-          <Button type="submit" disabled={!methods.formState.isValid} loading={loading}>Criar</Button>
+          <Button type="submit" disabled={methods.formState.isLoading} loading={loading}>Criar</Button>
         </Flex>
       </form>
     </FormProvider>
