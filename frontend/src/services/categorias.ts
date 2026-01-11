@@ -8,9 +8,9 @@ export const CategoriaFinalidade = {
 export type CategoriaFinalidade = typeof CategoriaFinalidade[keyof typeof CategoriaFinalidade];
 
 export interface CriarCategoriaCommand {
-  nome?: string;
-  descricao?: string;
-  finalidade: typeof CategoriaFinalidade;
+  nome: string;
+  descricao: string;
+  finalidade: CategoriaFinalidade;
 }
 
 export interface Categoria {
@@ -28,7 +28,7 @@ export interface CategoriaSimples {
 export const categoriasService = {
   listar: async (): Promise<CategoriaSimples[]> => (await api.get('/categorias')).data,
   listarDetalhado: async (): Promise<Paginated<Categoria[]>> => (await api.get('/categorias/detalhado')).data,
-  criar: async (data: CriarCategoriaCommand): Promise<void> =>
-    (await api.post('/categorias', data)).data,
+  criar: async (data: CriarCategoriaCommand, signal: AbortSignal | undefined = undefined): Promise<void> =>
+    (await api.post('/categorias', data, { signal: signal })).data,
 };
 
