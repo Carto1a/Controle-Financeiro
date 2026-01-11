@@ -1,5 +1,5 @@
 import { DropdownMenu, IconButton } from "@radix-ui/themes";
-import { RxHamburgerMenu } from "react-icons/rx";
+import { Menu } from 'lucide-react';
 import { useNavigate } from "react-router";
 
 export default function Navigator() {
@@ -9,7 +9,7 @@ export default function Navigator() {
     <DropdownMenu.Root>
       <DropdownMenu.Trigger>
         <IconButton>
-          <RxHamburgerMenu />
+          <Menu size={18}/>
         </IconButton>
       </DropdownMenu.Trigger>
       <DropdownMenu.Content size="2">

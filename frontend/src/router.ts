@@ -1,5 +1,9 @@
 import { createBrowserRouter, redirect } from "react-router";
 
+export interface RouteMetadata {
+  title?: string;
+}
+
 export const routes = {
   resumos: "/resumos",
 
@@ -23,6 +27,9 @@ export const router = createBrowserRouter([
       },
       {
         path: "resumos",
+        handle: {
+          title: "Resumos"
+        },
         lazy: async () => ({
           Component: (await import("./pages/DashboardResumos.tsx")).default
         })
@@ -36,18 +43,27 @@ export const router = createBrowserRouter([
           },
           {
             path: "transacoes",
+            handle: {
+              title: "Transacoes"
+            },
             lazy: async () => ({
               Component: (await import("./pages/ManagerTransacoes.tsx")).default
             })
           },
           {
             path: "categorias",
+            handle: {
+              title: "Categorias"
+            },
             lazy: async () => ({
               Component: (await import("./pages/ManagerCategorias.tsx")).default
             })
           },
           {
             path: "pessoas",
+            handle: {
+              title: "Pessoas"
+            },
             lazy: async () => ({
               Component: (await import("./pages/ManagerPessoas.tsx")).default
             })

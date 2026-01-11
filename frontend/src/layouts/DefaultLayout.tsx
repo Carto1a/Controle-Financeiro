@@ -1,130 +1,26 @@
+import { Text } from "@radix-ui/themes";
 import { Outlet } from "react-router";
 import Navigator from "../components/Navigator";
-import { Box, Container, Flex, Section } from "@radix-ui/themes";
-import DataTable from "../components/DataTable";
-import {
-  getCoreRowModel,
-  getFilteredRowModel,
-  getPaginationRowModel,
-  getSortedRowModel,
-  useReactTable,
-  type ColumnDef,
-  type ColumnFiltersState,
-  type PaginationState,
-  type SortingState,
-  type VisibilityState,
-} from "@tanstack/react-table"
-import {
-  keepPreviousData,
-  useQuery,
-} from '@tanstack/react-query'
-import React, { useMemo, useState } from "react";
-import type { Paginated } from "../api/axios";
-import type { Categoria } from "../services/categorias";
+import { useRouteMeta } from "@/hooks/useRouteMeta";
+import type { RouteMetadata } from "@/router";
 
 export default function DefaultLayout() {
-  const data = [
-    {
-      value: 10
-    },
-    {
-      value: 10
-    },
-    {
-      value: 10
-    },
-    {
-      value: 10
-    },
-    {
-      value: 10
-    },
-    {
-      value: 10
-    },
-    {
-      value: 10
-    },
-    {
-      value: 10
-    },
-    {
-      value: 11
-    },
-    {
-      value: 10
-    },
-    {
-      value: 10
-    },
-    {
-      value: 10
-    },
-    {
-      value: 10
-    },
-    {
-      value: 10
-    },
-    {
-      value: 10
-    },
-    {
-      value: 10
-    },
-    {
-      value: 10
-    },
-  ]
-
-
-  const columns: ColumnDef<unknown>[] = [
-    {
-      header: "Valor",
-      accessorKey: "value"
-    }
-  ]
-
-  const [sorting, setSorting] = useState<SortingState>([])
-  const [pagination, setPagination] = useState<PaginationState>({
-    pageIndex: 0,
-    pageSize: 10,
-  })
-
-  const dataQuery = useQuery<void, void, Paginated<Categoria[]>>({
-    queryKey: ['data', pagination],
-    queryFn: () => console.log("teste"),
-    placeholderData: keepPreviousData, // don't have 0 rows flash while changing pages/loading next page
-  })
-
-  const defaultData = useMemo(() => [], [])
-
-  const table = useReactTable({
-    data: dataQuery.data?.items ?? defaultData,
-    columns,
-    rowCount: dataQuery.data?.pageSize,
-    manualSorting: true,
-    manualPagination: true,
-    onSortingChange: setSorting,
-    onPaginationChange: setPagination,
-    getCoreRowModel: getCoreRowModel(),
-    getPaginationRowModel: getPaginationRowModel(),
-    getSortedRowModel: getSortedRowModel(),
-    state: {
-      sorting
-    },
-  })
+  const routeMeta = useRouteMeta<RouteMetadata>();
 
   return (
-    <Box p={{ sm: '4' }}>
-      <Navigator />
+    <div className="flex flex-col h-screen bg-gray-100 p-[1rem] gap-4">
+      <div className="relative flex items-center">
+        <div className="flex-shrink-0">
+          <Navigator />
+        </div>
 
-      <Box width={{ sm: "100%", md: "100%", lg: "100%" }}>
-        <DataTable table={table} />
-      </Box>
-
-
+        {routeMeta.title && (
+          <Text className="absolute left-1/2 -translate-x-1/2 text-xl font-semibold ">
+            {routeMeta.title}
+          </Text>
+        )}
+      </div>
       <Outlet />
-    </Box>
+    </div>
   )
 }
