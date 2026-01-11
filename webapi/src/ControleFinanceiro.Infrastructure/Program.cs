@@ -4,6 +4,7 @@ using Microsoft.OpenApi;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.ConfigureCors(builder.Configuration);
 builder.Services.AddOpenApi();
 builder.Services.AddControllers();
 builder.Services.AddRouting(options => options.LowercaseUrls = true);
@@ -22,6 +23,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseCors("AllowFrontend");
 app.UseCustomExceptionHandler();
 app.ApplyMigrations();
 app.UseHttpsRedirection();
