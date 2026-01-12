@@ -3,7 +3,7 @@ using FluentResults;
 
 namespace ControleFinanceiro.Application.UseCases;
 
-public record ObterListaCategoriasBasicaResponse(Guid Id, string Descricao);
+public record ObterListaCategoriasBasicaResponse(Guid Id, string Nome);
 
 public class ObterListaCategoriasBasicaQueryHandler(IQueries queries)
 {

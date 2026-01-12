@@ -5,7 +5,7 @@ using FluentResults;
 
 namespace ControleFinanceiro.Application.UseCases;
 
-public record ObterListaCategoriasDetalhadaResponse(Guid Id, string Descricao, Finalidade Finalidade);
+public record ObterListaCategoriasDetalhadaResponse(Guid Id, string Nome, string Descricao, Finalidade Finalidade);
 public record ObterListaCategoriasDetalhadaQuery(int Pagina, int TamanhoPagina) : IPagination;
 
 public class ObterListaCategoriasDetalhadaQueryHandler(IQueries queries)

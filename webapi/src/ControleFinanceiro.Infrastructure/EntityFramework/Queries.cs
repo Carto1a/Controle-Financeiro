@@ -14,7 +14,7 @@ public class Queries(AppDbContext context) : IQueries
     {
         return _context.Categorias
             .AsNoTracking()
-            .Select(x => new ObterListaCategoriasBasicaResponse(x.Id, x.Descricao))
+            .Select(x => new ObterListaCategoriasBasicaResponse(x.Id, x.Nome))
             .ToListAsync(cancellationToken);
     }
 
@@ -24,7 +24,7 @@ public class Queries(AppDbContext context) : IQueries
     {
         var query = _context.Categorias
             .AsNoTracking()
-            .Select(x => new { x.Id, x.Descricao, x.Finalidade });
+            .Select(x => new { x.Id, x.Nome, x.Descricao, x.Finalidade });
 
         var total = await query.CountAsync();
         var paged = await query
@@ -33,7 +33,7 @@ public class Queries(AppDbContext context) : IQueries
             .Take(request.TamanhoPagina)
             .ToListAsync(cancellationToken);
 
-        var items = paged.Select(x => new ObterListaCategoriasDetalhadaResponse(x.Id, x.Descricao, x.Finalidade)).ToList();
+        var items = paged.Select(x => new ObterListaCategoriasDetalhadaResponse(x.Id, x.Nome, x.Descricao, x.Finalidade)).ToList();
 
         return new PaginatedResponse<ObterListaCategoriasDetalhadaResponse>(request, items, total);
     }
