@@ -21,6 +21,19 @@ public class CategoriasController : ControllerBase
         return Created();
     }
 
+    [HttpGet("{id}")]
+    public async Task<IActionResult> Obter(
+        [FromServices] ObterCategoriaQueryHandler handler,
+        [FromRoute] Guid id,
+        CancellationToken cancellationToken)
+    {
+        var result = await handler.Handle(id, cancellationToken);
+        if (result.IsFailed)
+            return BadRequest(result.Errors);
+
+        return Ok(result.Value);
+    }
+
     [HttpGet]
     public async Task<IActionResult> ListarBasico(
         [FromServices] ObterListaCategoriasBasicaQueryHandler handler,

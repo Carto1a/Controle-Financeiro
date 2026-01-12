@@ -21,6 +21,19 @@ public class PessoaController : ControllerBase
         return Created();
     }
 
+    [HttpGet("{id}")]
+    public async Task<IActionResult> Obter(
+        [FromServices] ObterPessoaQueryHandler handler,
+        [FromRoute] Guid id,
+        CancellationToken cancellationToken)
+    {
+        var result = await handler.Handle(id, cancellationToken);
+        if (result.IsFailed)
+            return BadRequest(result.Errors);
+
+        return Ok(result.Value);
+    }
+
     [HttpDelete("{id}")]
     public async Task<IActionResult> Deletar(
         [FromServices] DeletarPessoaCommandHandler handler,

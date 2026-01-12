@@ -9,11 +9,13 @@ public interface IQueries
     Task<PaginatedResponse<ObterListaCategoriasDetalhadaResponse>> ObterListaCategoriasDetalhada(
         ObterListaCategoriasDetalhadaQuery request,
         CancellationToken cancellationToken = default);
+    Task<ObterCategoriaReponse?> ObterCategoriaPorId(Guid id, CancellationToken cancellationToken = default);
 
     Task<List<ObterListaPessoasBasicaResponse>> ObterListaPessoasBasica(CancellationToken cancellationToken = default);
     Task<PaginatedResponse<ObterListaPessoasDetalhadaResponse>> ObterListaPessoasDetalhada(
         ObterListaPessoasDetalhadaQuery request,
         CancellationToken cancellationToken = default);
+    Task<ObterPessoaReponse?> ObterPessoaPorId(Guid id, CancellationToken cancellationToken = default);
 
     Task<PaginatedResponse<ObterListaTransacoesDetalhadaResponse>> ObterListaTransacoesDetalhada(
         ObterListaTransacoesDetalhadaQuery request,

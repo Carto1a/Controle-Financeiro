@@ -10,6 +10,14 @@ public class Queries(AppDbContext context) : IQueries
 {
     private readonly AppDbContext _context = context;
 
+    public Task<ObterCategoriaReponse?> ObterCategoriaPorId(Guid id, CancellationToken cancellationToken = default)
+    {
+        return _context.Categorias
+            .AsNoTracking()
+            .Select(x => new ObterCategoriaReponse(x.Id, x.Nome, x.Descricao, EF.Property<Finalidade>(x, "FinalidadeId")))
+            .FirstOrDefaultAsync(cancellationToken);
+    }
+
     public Task<List<ObterListaCategoriasBasicaResponse>> ObterListaCategoriasBasica(CancellationToken cancellationToken = default)
     {
         return _context.Categorias
@@ -136,6 +144,14 @@ public class Queries(AppDbContext context) : IQueries
             .ToList();
 
         return new PaginatedResponse<ObterListaTransacoesDetalhadaResponse>(request, items, total);
+    }
+
+    public Task<ObterPessoaReponse?> ObterPessoaPorId(Guid id, CancellationToken cancellationToken = default)
+    {
+        return _context.Pessoas
+            .AsNoTracking()
+            .Select(x => new ObterPessoaReponse(x.Id, x.Nome, x.DataNascimento))
+            .FirstOrDefaultAsync(cancellationToken);
     }
 
     public async Task<PaginatedResponse<ResumoFinanceiroResponse>> ObterResumoFinanceiroPorCategoria(

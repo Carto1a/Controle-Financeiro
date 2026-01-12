@@ -38,6 +38,8 @@ public static class DependencyInjection
         services.AddScoped<ObterResumoFinanceiroPorCategoriaQueryHandler>();
         services.AddScoped<ObterResumoFinanceiroPorPessoaQueryHandler>();
         services.AddScoped<ObterResumoFinanceiroTotalQueryHandler>();
+        services.AddScoped<ObterCategoriaQueryHandler>();
+        services.AddScoped<ObterPessoaQueryHandler>();
 
         return services;
     }
