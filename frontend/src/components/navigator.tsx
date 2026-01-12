@@ -1,24 +1,42 @@
-import { DropdownMenu, IconButton } from "@radix-ui/themes";
-import { Menu } from 'lucide-react';
-import { useNavigate } from "react-router";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
+import { Button } from "@/components/ui/button"
+import { Menu } from "lucide-react"
+import { useNavigate } from "react-router"
 
 export default function Navigator() {
-  const navigate = useNavigate();
+  const navigate = useNavigate()
 
   return (
-    <DropdownMenu.Root>
-      <DropdownMenu.Trigger>
-        <IconButton>
-          <Menu size={18}/>
-        </IconButton>
-      </DropdownMenu.Trigger>
-      <DropdownMenu.Content size="2">
-        <DropdownMenu.Item onClick={() => navigate("/resumos")}>Resumos</DropdownMenu.Item>
-        <DropdownMenu.Separator />
-        <DropdownMenu.Item onClick={() => navigate("/manager/categorias")}>Categorias</DropdownMenu.Item>
-        <DropdownMenu.Item onClick={() => navigate("/manager/pessoas")}>Pessoas</DropdownMenu.Item>
-        <DropdownMenu.Item onClick={() => navigate("/manager/transacoes")}>Transacoes</DropdownMenu.Item>
-      </DropdownMenu.Content>
-    </DropdownMenu.Root>
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Button variant="ghost" size="icon">
+          <Menu className="h-4 w-4" />
+        </Button>
+      </DropdownMenuTrigger>
+
+      <DropdownMenuContent align="end" className="w-56">
+        <DropdownMenuItem onClick={() => navigate("/resumos")}>
+          Resumos
+        </DropdownMenuItem>
+
+        <DropdownMenuSeparator />
+
+        <DropdownMenuItem onClick={() => navigate("/manager/categorias")}>
+          Categorias
+        </DropdownMenuItem>
+        <DropdownMenuItem onClick={() => navigate("/manager/pessoas")}>
+          Pessoas
+        </DropdownMenuItem>
+        <DropdownMenuItem onClick={() => navigate("/manager/transacoes")}>
+          Transações
+        </DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
   )
 }

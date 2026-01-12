@@ -1,11 +1,12 @@
 import type { Paginated } from "@/api/axios";
 import DataTable from "@/components/data-table";
-import { Button, Dialog } from "@radix-ui/themes";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import { getCoreRowModel, getPaginationRowModel, useReactTable, type ColumnDef, type PaginationState } from "@tanstack/react-table";
 import { useMemo, useState } from "react";
 import ManagerPessoaForm from "./ManagerPessoaForm";
 import { pessoaService, type Pessoa } from "@/services/pessoas";
+import { Button } from "@/components/ui/button";
+import { Dialog, DialogContent, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 
 export default function ManagerPessoas() {
   const [dialogOpen, setDialogOpen] = useState(false);
@@ -54,20 +55,20 @@ export default function ManagerPessoas() {
   return (
     <>
       <div className="flex flex-col items-end">
-        <Dialog.Root open={dialogOpen} onOpenChange={setDialogOpen}>
-          <Dialog.Trigger>
-            <Button className="!min-w-30">
+        <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
+          <DialogTrigger>
+            <Button className="!min-w-30 bg-green-500 text-white hover:bg-green-600">
               Criar
             </Button>
-          </Dialog.Trigger>
-          <Dialog.Content maxWidth="500px">
-            <Dialog.Title>Nova Pessoa</Dialog.Title>
+          </DialogTrigger>
+          <DialogContent>
+            <DialogTitle>Nova Pessoa</DialogTitle>
             <ManagerPessoaForm
               onCreated={() => setDialogOpen(false)}
               onCancel={() => setDialogOpen(false)}
             />
-          </Dialog.Content>
-        </Dialog.Root>
+          </DialogContent>
+        </Dialog>
 
       </div>
       <DataTable table={table} dataQuery={dataQuery} />

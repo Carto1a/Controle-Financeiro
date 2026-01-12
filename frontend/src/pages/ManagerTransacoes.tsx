@@ -1,7 +1,7 @@
 import type { Paginated } from "@/api/axios";
 import DataTable from "@/components/data-table";
 import { TipoTransacao, transacoesService, type Transacao } from "@/services/transacoes";
-import { Badge, Button, Dialog, Text } from "@radix-ui/themes";
+import { Badge, Text } from "@radix-ui/themes";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import {
   getCoreRowModel,
@@ -15,6 +15,8 @@ import ManagerTransacaoForm from "./ManagerTransacoeForm";
 import HoverCardFetch from "@/components/hover-card-fetch";
 import { pessoaService, type Pessoa, type PessoaSimples } from "@/services/pessoas";
 import { CategoriaFinalidade, categoriasService, type Categoria, type CategoriaSimples } from "@/services/categorias";
+import { Button } from "@/components/ui/button";
+import { Dialog, DialogContent, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 
 export default function ManagerTransacoes() {
   const [dialogOpen, setDialogOpen] = useState(false);
@@ -163,20 +165,20 @@ export default function ManagerTransacoes() {
   return (
     <>
       <div className="flex flex-col items-end">
-        <Dialog.Root open={dialogOpen} onOpenChange={setDialogOpen}>
-          <Dialog.Trigger>
-            <Button className="!min-w-30">
+        <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
+          <DialogTrigger>
+            <Button className="!min-w-30 bg-green-500 text-white hover:bg-green-600">
               Criar
             </Button>
-          </Dialog.Trigger>
-          <Dialog.Content maxWidth="500px">
-            <Dialog.Title>Nova Transacao</Dialog.Title>
+          </DialogTrigger>
+          <DialogContent>
+            <DialogTitle>Nova Transacao</DialogTitle>
             <ManagerTransacaoForm
               onCreated={() => setDialogOpen(false)}
               onCancel={() => setDialogOpen(false)}
             />
-          </Dialog.Content>
-        </Dialog.Root>
+          </DialogContent>
+        </Dialog>
 
       </div>
       <DataTable table={table} dataQuery={dataQuery} />
