@@ -24,7 +24,7 @@ public class Queries(AppDbContext context) : IQueries
     {
         var query = _context.Categorias
             .AsNoTracking()
-            .Select(x => new { x.Id, x.Nome, x.Descricao, x.Finalidade });
+            .Select(x => new { x.Id, x.Nome, x.Descricao, Finalidade = EF.Property<Finalidade>(x, "FinalidadeId") });
 
         var total = await query.CountAsync();
         var paged = await query
@@ -81,7 +81,7 @@ public class Queries(AppDbContext context) : IQueries
                     transacao.Id,
                     PessoaId = EF.Property<Guid>(transacao, "PessoaId"),
                     transacao.Descricao,
-                    transacao.TipoTransacao,
+                    TipoTransacao = EF.Property<TipoTransacao>(transacao, "TipoTransacaoId"),
                     transacao.Valor,
                     transacao.Data,
                     transacao.CriadoEm,
@@ -155,10 +155,10 @@ public class Queries(AppDbContext context) : IQueries
                 x.Key.Id,
                 x.Key.Nome,
                 TotalDespesas = x
-                    .Where(x => x.Transacao != null && x.Transacao.TipoTransacao == TipoTransacao.Despesa)
+                    .Where(x => x.Transacao != null && EF.Property<TipoTransacao>(x.Transacao, "TipoTransacaoId") == TipoTransacao.Despesa)
                     .Sum(x => x.Transacao != null ? x.Transacao.Valor : 0),
                 TotalReceitas = x
-                    .Where(x => x.Transacao != null && x.Transacao.TipoTransacao == TipoTransacao.Receita)
+                    .Where(x => x.Transacao != null && EF.Property<TipoTransacao>(x.Transacao, "TipoTransacaoId") == TipoTransacao.Receita)
                     .Sum(x => x.Transacao != null ? x.Transacao.Valor : 0),
             });
 
@@ -200,10 +200,10 @@ public class Queries(AppDbContext context) : IQueries
                 x.Key.Id,
                 x.Key.Nome,
                 TotalDespesas = x
-                    .Where(x => x.Transacao != null && x.Transacao.TipoTransacao == TipoTransacao.Despesa)
+                    .Where(x => x.Transacao != null && EF.Property<TipoTransacao>(x.Transacao, "TipoTransacaoId") == TipoTransacao.Despesa)
                     .Sum(x => x.Transacao != null ? x.Transacao.Valor : 0),
                 TotalReceitas = x
-                    .Where(x => x.Transacao != null && x.Transacao.TipoTransacao == TipoTransacao.Receita)
+                    .Where(x => x.Transacao != null && EF.Property<TipoTransacao>(x.Transacao, "TipoTransacaoId") == TipoTransacao.Receita)
                     .Sum(x => x.Transacao != null ? x.Transacao.Valor : 0),
             });
 
@@ -236,10 +236,10 @@ public class Queries(AppDbContext context) : IQueries
             .Select(x => new ResumoFinanceiroValoresResponse()
             {
                 TotalDespesas = x
-                    .Where(x => x.TipoTransacao == TipoTransacao.Despesa)
+                    .Where(x => EF.Property<TipoTransacao>(x, "TipoTransacaoId") == TipoTransacao.Despesa)
                     .Sum(x => x.Valor),
                 TotalReceitas = x
-                    .Where(x => x.TipoTransacao == TipoTransacao.Receita)
+                    .Where(x => EF.Property<TipoTransacao>(x, "TipoTransacaoId") == TipoTransacao.Receita)
                     .Sum(x => x.Valor),
             })
             .FirstAsync(cancellationToken);
