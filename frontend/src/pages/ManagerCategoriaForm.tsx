@@ -1,10 +1,13 @@
-import { Button, Flex, TextField, Text, Select } from "@radix-ui/themes";
+import { Button, Flex } from "@radix-ui/themes";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { z } from "zod";
-import { Controller, FormProvider, useForm } from "react-hook-form";
+import { FormProvider, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { CategoriaFinalidade, categoriasService, type CriarCategoriaCommand } from "@/services/categorias";
 import { useRef, useState } from "react";
 import toast from "react-hot-toast";
+import ControllerField from "@/components/controllerField";
+import { Input } from "@/components/ui/input";
 
 const categoriaSchema = z.object({
   nome: z.string().min(1, "Nome obrigatório"),
@@ -69,52 +72,39 @@ export default function ManagerCategoriaForm(props: ManagerCategoriaFormProps) {
     <FormProvider {...methods}>
       <form onSubmit={methods.handleSubmit(onSubmit)}>
         <Flex direction="column" gap="3">
-          <label>
-            <Text as="div" size="2" mb="1" weight="bold">
-              Nome
-            </Text>
-            <TextField.Root {...methods.register("nome")} />
-          </label>
-          {methods.formState.errors.nome && (
-            <span className="text-red-500 text-sm">
-              {methods.formState.errors.nome.message}
-            </span>
-          )}
-          <label>
-            <Text as="div" size="2" mb="1" weight="bold">
-              Descrição
-            </Text>
-            <TextField.Root {...methods.register("descricao")} />
-          </label>
-          {methods.formState.errors.descricao && (
-            <span className="text-red-500 text-sm">
-              {methods.formState.errors.descricao.message}
-            </span>
-          )}
-          <label>
-            <Text as="div" size="2" mb="1" weight="bold">
-              Nome
-            </Text>
-            <Controller
-              name="finalidade"
-              control={methods.control}
-              render={({ field }) => (
-                <Select.Root value={field.value} onValueChange={field.onChange}>
-                  <Select.Trigger placeholder="Selecione a finalidade" />
-                  <Select.Content>
-                    {Object.entries(CategoriaFinalidade).map(([label, value]) =>
-                      <Select.Item key={value} value={value.toString()}>{label}</Select.Item>
-                    )}
-                  </Select.Content>
-                </Select.Root>
-              )}
-            />
-          </label>
-          {methods.formState.errors.finalidade && (
-            <span className="text-red-500 text-sm">
-              {methods.formState.errors.finalidade.message}
-            </span>
-          )}
+          <ControllerField<CategoriaFormData>
+            name="nome"
+            label="Nome"
+            control={methods.control}
+            compoment={({ value, onChange }) => (
+              <Input value={value} onChange={onChange}/>
+            )}
+          />
+          <ControllerField<CategoriaFormData>
+            name="descricao"
+            label="Descrição"
+            control={methods.control}
+            compoment={({ value, onChange }) => (
+              <Input value={value} onChange={onChange}/>
+            )}
+          />
+          <ControllerField<CategoriaFormData>
+            name="finalidade"
+            label="Finalidade"
+            control={methods.control}
+            compoment={({ value, onChange }) => (
+              <Select value={value} onValueChange={onChange}>
+                <SelectTrigger className="!w-1/2">
+                  <SelectValue placeholder="Selecione a finalidade" />
+                </SelectTrigger>
+                <SelectContent>
+                  {Object.entries(CategoriaFinalidade).map(([label, value]) =>
+                    <SelectItem key={value} value={value.toString()}>{label}</SelectItem>
+                  )}
+                </SelectContent>
+              </Select>
+            )}
+          />
         </Flex>
 
         <Flex gap="3" mt="4" justify="end">
