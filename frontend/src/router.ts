@@ -71,5 +71,9 @@ export const router = createBrowserRouter([
         ]
       }
     ]
+  },
+  {
+    path: "*",
+    Component: (await import("./pages/NotFound.tsx")).default
   }
 ]);
