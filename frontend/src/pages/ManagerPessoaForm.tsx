@@ -4,10 +4,10 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useRef, useState } from "react";
 import toast from "react-hot-toast";
 import { pessoaService, type CriarPessoaCommand } from "@/services/pessoas";
-import { DatePicker } from "@/components/ui/datepicker";
+import { DatePicker } from "@/components/datepicker";
 import ManagerForm from "@/components/manager-form";
 import { Input } from "@/components/ui/input";
-import ControllerField from "@/components/controllerField";
+import ControllerField from "@/components/controller-field";
 
 const pessoaSchema = z.object({
   nome: z.string().min(1, "Nome obrigatório"),

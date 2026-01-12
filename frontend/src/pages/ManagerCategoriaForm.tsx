@@ -1,12 +1,11 @@
-import { Button, Flex } from "@radix-ui/themes";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { z } from "zod";
-import { FormProvider, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { CategoriaFinalidade, categoriasService, type CriarCategoriaCommand } from "@/services/categorias";
 import { useRef, useState } from "react";
 import toast from "react-hot-toast";
-import ControllerField from "@/components/controllerField";
+import ControllerField from "@/components/controller-field";
 import { Input } from "@/components/ui/input";
 import ManagerForm from "@/components/manager-form";
 
@@ -82,14 +81,16 @@ export default function ManagerCategoriaForm(props: ManagerCategoriaFormProps) {
         control={methods.control}
         compoment={({ value, onChange }) => (
           <Input value={value} onChange={onChange} />
-        )} />
+        )}
+      />
       <ControllerField<CategoriaFormData>
         name="descricao"
         label="Descrição"
         control={methods.control}
         compoment={({ value, onChange }) => (
           <Input value={value} onChange={onChange} />
-        )} />
+        )}
+      />
       <ControllerField<CategoriaFormData>
         name="finalidade"
         label="Finalidade"
@@ -107,7 +108,8 @@ export default function ManagerCategoriaForm(props: ManagerCategoriaFormProps) {
               )}
             </SelectContent>
           </Select>
-        )} />
+        )}
+      />
     </ManagerForm>
   )
 }

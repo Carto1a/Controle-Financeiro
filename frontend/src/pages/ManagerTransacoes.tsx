@@ -1,5 +1,5 @@
 import type { Paginated } from "@/api/axios";
-import DataTable from "@/components/DataTable";
+import DataTable from "@/components/data-table";
 import { transacoesService, type Transacao } from "@/services/transacoes";
 import { Button, Dialog } from "@radix-ui/themes";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";

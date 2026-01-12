@@ -1,6 +1,6 @@
 import { Text } from "@radix-ui/themes";
 import { Outlet } from "react-router";
-import Navigator from "../components/Navigator";
+import Navigator from "../components/navigator";
 import { useRouteMeta } from "@/hooks/useRouteMeta";
 import type { RouteMetadata } from "@/router";
 

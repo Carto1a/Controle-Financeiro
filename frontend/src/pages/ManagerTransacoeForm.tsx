@@ -5,7 +5,7 @@ import { useEffect, useRef, useState } from "react";
 import toast from "react-hot-toast";
 import { TipoTransacao, transacoesService, type CriarTransacaoCommand } from "@/services/transacoes";
 import ManagerForm from "@/components/manager-form";
-import ControllerField from "@/components/controllerField";
+import ControllerField from "@/components/controller-field";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { pessoaService, type PessoaSimples } from "@/services/pessoas";
@@ -133,6 +133,7 @@ export default function ManagerTransacaoForm(props: ManagerTransacaoFormProps) {
         control={methods.control}
         compoment={({ value, onChange }) => (
           <NumberInput
+            disableStepper
             decimalScale={2}
             thousandSeparator={','}
             value={value}

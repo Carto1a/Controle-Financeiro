@@ -5,9 +5,11 @@ import { forwardRef, useCallback, useEffect, useState, useRef } from 'react';
 import { NumericFormat, type NumericFormatProps } from 'react-number-format';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
+import clsx from 'clsx';
 
 export interface NumberInputProps
   extends Omit<NumericFormatProps, 'value' | 'onValueChange'> {
+  disableStepper?: boolean
   stepper?: number;
   thousandSeparator?: string;
   placeholder?: string;
@@ -25,6 +27,7 @@ export interface NumberInputProps
 export const NumberInput = forwardRef<HTMLInputElement, NumberInputProps>(
   (
     {
+      disableStepper = false,
       stepper,
       thousandSeparator,
       placeholder,
@@ -130,30 +133,35 @@ export const NumberInput = forwardRef<HTMLInputElement, NumberInputProps>(
           prefix={prefix}
           customInput={Input}
           placeholder={placeholder}
-          className="[appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none rounded-r-none relative"
+          className={clsx(
+            "[appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none relative",
+            !disableStepper && "rounded-r-none"
+          )}
           getInputRef={combinedRef} // Use combined ref
           {...props}
         />
-        <div className="flex flex-col">
-          <Button
-            aria-label="Increase value"
-            className="px-2 h-5 rounded-l-none rounded-br-none border-input border-l-0 border-b-[0.5px] focus-visible:relative"
-            variant="outline"
-            onClick={handleIncrement}
-            disabled={value === max}
-          >
-            <ChevronUp size={15} />
-          </Button>
-          <Button
-            aria-label="Decrease value"
-            className="px-2 h-5 rounded-l-none rounded-tr-none border-input border-l-0 border-t-[0.5px] focus-visible:relative"
-            variant="outline"
-            onClick={handleDecrement}
-            disabled={value === min}
-          >
-            <ChevronDown size={15} />
-          </Button>
-        </div>
+        {!disableStepper && (
+          <div className="flex flex-col">
+            <Button
+              aria-label="Increase value"
+              className="px-2 h-5 rounded-l-none rounded-br-none border-input border-l-0 border-b-[0.5px] focus-visible:relative"
+              variant="outline"
+              onClick={handleIncrement}
+              disabled={value === max}
+            >
+              <ChevronUp size={15} />
+            </Button>
+            <Button
+              aria-label="Decrease value"
+              className="px-2 h-5 rounded-l-none rounded-tr-none border-input border-l-0 border-t-[0.5px] focus-visible:relative"
+              variant="outline"
+              onClick={handleDecrement}
+              disabled={value === min}
+            >
+              <ChevronDown size={15} />
+            </Button>
+          </div>
+        )}
       </div>
     );
   }

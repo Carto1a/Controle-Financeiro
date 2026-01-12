@@ -1,8 +1,8 @@
 import type { Paginated } from "@/api/axios";
-import DataTable from "@/components/DataTable";
+import DataTable from "@/components/data-table";
 import { Button, Dialog } from "@radix-ui/themes";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
-import { getCoreRowModel, getPaginationRowModel, getSortedRowModel, useReactTable, type ColumnDef, type PaginationState, type SortingState } from "@tanstack/react-table";
+import { getCoreRowModel, getPaginationRowModel, useReactTable, type ColumnDef, type PaginationState } from "@tanstack/react-table";
 import { useMemo, useState } from "react";
 import ManagerPessoaForm from "./ManagerPessoaForm";
 import { pessoaService, type Pessoa } from "@/services/pessoas";
