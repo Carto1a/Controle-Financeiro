@@ -44,14 +44,18 @@ export default function DashboardResumos() {
     {
       header: "Total Despesas",
       accessorKey: "totalDespesas",
-      cell: info => (
-        <Currency value={info.getValue() as number} />
-      ),
+      cell: info => {
+        const value = info.getValue() as number;
+
+        return (
+          <Currency value={value === 0 ? 0 : -value} />
+        )
+      },
       meta: {
         total: {
           totalKey: "totalDespesas",
           format: (value: number) => (
-            <Currency value={value} />
+            <Currency value={-value} />
           )
         }
       }
