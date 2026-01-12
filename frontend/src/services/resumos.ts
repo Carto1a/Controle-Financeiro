@@ -12,8 +12,8 @@ export interface ResumoFinanceiro extends ResumoFinanceiroTotal {
 }
 
 export const resumosService = {
-  totalFinanceiro: async (query: PaginatedQuery, signal: AbortSignal | undefined = undefined): Promise<ResumoFinanceiroTotal> =>
-    (await api.get('/resumos/financeiro/total', { params: query, signal: signal })).data,
+  totalFinanceiro: async (signal: AbortSignal | undefined = undefined): Promise<ResumoFinanceiroTotal> =>
+    (await api.get('/resumos/financeiro/total', { signal: signal })).data,
 
   porPessoa: async (query: PaginatedQuery, signal: AbortSignal | undefined = undefined): Promise<Paginated<ResumoFinanceiro>> =>
     (await api.get('/resumos/financeiro/pessoas', { params: query, signal: signal })).data,

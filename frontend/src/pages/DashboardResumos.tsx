@@ -1,8 +1,10 @@
 import type { Paginated } from "@/api/axios";
+import Currency from "@/components/currency";
 import DataTable from "@/components/data-table";
 import { Button } from "@/components/ui/button";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
-import { resumosService, type ResumoFinanceiro } from "@/services/resumos";
+import { formatCurrency } from "@/helpers";
+import { resumosService, type ResumoFinanceiro, type ResumoFinanceiroTotal } from "@/services/resumos";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import {
   getCoreRowModel,
@@ -17,7 +19,7 @@ export default function DashboardResumos() {
   const [state, setState] = useState<string>("pessoas");
   const [pagination, setPagination] = useState<PaginationState>({
     pageIndex: 0,
-    pageSize: 10,
+    pageSize: 50,
   })
 
   const columns: ColumnDef<ResumoFinanceiro>[] = [
@@ -27,32 +29,47 @@ export default function DashboardResumos() {
     },
     {
       header: "Total Receitas",
-      accessorKey: "totalReceitas"
+      accessorKey: "totalReceitas",
+      cell: info => (
+        <Currency value={info.getValue() as number} />
+      ),
+      meta: {
+        total: {
+          totalKey: "totalReceitas",
+          format: (value: number) => (
+            <Currency value={value} />
+          )
+        }
+      }
     },
     {
       header: "Total Despesas",
-      accessorKey: "totalDespesas"
+      accessorKey: "totalDespesas",
+      cell: info => (
+        <Currency value={info.getValue() as number} />
+      ),
+      meta: {
+        total: {
+          totalKey: "totalDespesas",
+          format: (value: number) => (
+            <Currency value={value} />
+          )
+        }
+      }
     },
     {
       header: "Saldo",
       accessorKey: "saldo",
-      cell: info => {
-        const value = info.getValue() as number;
-
-        const colorClass = value > 0
-          ? "text-green-600"
-          : value < 0
-            ? "text-red-600"
-            : "text-gray-500";
-
-        return (
-          <span className={colorClass}>
-            {new Intl.NumberFormat("pt-BR", {
-              style: "currency",
-              currency: "BRL"
-            }).format(value)}
-          </span>
-        );
+      cell: info => (
+        <Currency value={info.getValue() as number} />
+      ),
+      meta: {
+        total: {
+          totalKey: "saldo",
+          format: (value: number) => (
+            <Currency value={value} />
+          )
+        }
       }
     }
   ]
@@ -73,6 +90,11 @@ export default function DashboardResumos() {
     },
     placeholderData: keepPreviousData,
   })
+
+  const totalQuery = useQuery<ResumoFinanceiroTotal>({
+    queryKey: ["resumos-totals"],
+    queryFn: () => resumosService.totalFinanceiro()
+  });
 
   const table = useReactTable({
     data: dataQuery.data?.items ?? defaultData,
@@ -116,7 +138,7 @@ export default function DashboardResumos() {
         </ToggleGroup>
       </div>
 
-      <DataTable table={table} dataQuery={dataQuery} />
+      <DataTable table={table} dataQuery={dataQuery} totalQuery={totalQuery} />
     </>
   )
 }
