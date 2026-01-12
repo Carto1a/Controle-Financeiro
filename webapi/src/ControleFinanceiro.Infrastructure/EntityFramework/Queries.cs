@@ -244,9 +244,9 @@ public class Queries(AppDbContext context) : IQueries
         return new PaginatedResponse<ResumoFinanceiroResponse>(request, items, total);
     }
 
-    public Task<ResumoFinanceiroValoresResponse> ObterResumoFinanceiroTotal(CancellationToken cancellationToken = default)
+    public async Task<ResumoFinanceiroValoresResponse> ObterResumoFinanceiroTotal(CancellationToken cancellationToken = default)
     {
-        return _context.Transacaos
+        var total = await _context.Transacaos
             .AsNoTracking()
             .GroupBy(x => 1)
             .Select(x => new ResumoFinanceiroValoresResponse()
@@ -258,6 +258,15 @@ public class Queries(AppDbContext context) : IQueries
                     .Where(x => EF.Property<TipoTransacao>(x, "TipoTransacaoId") == TipoTransacao.Receita)
                     .Sum(x => x.Valor),
             })
-            .FirstAsync(cancellationToken);
+            .FirstOrDefaultAsync(cancellationToken);
+
+        if (total == null)
+            return new ResumoFinanceiroValoresResponse()
+            {
+                TotalDespesas = 0,
+                TotalReceitas = 0
+            };
+
+        return total;
     }
 }
