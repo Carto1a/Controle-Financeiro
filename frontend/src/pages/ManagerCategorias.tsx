@@ -1,7 +1,7 @@
 import type { Paginated } from "@/api/axios";
 import DataTable from "@/components/data-table";
-import { categoriasService, type Categoria } from "@/services/categorias";
-import { Button, Dialog } from "@radix-ui/themes";
+import { CategoriaFinalidade, categoriasService, type Categoria } from "@/services/categorias";
+import { Badge, Button, Dialog } from "@radix-ui/themes";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import {
   getCoreRowModel,
@@ -22,8 +22,25 @@ export default function ManagerCategorias() {
 
   const columns: ColumnDef<Categoria>[] = [
     {
-      header: "Valor",
-      accessorKey: "value"
+      header: "Nome",
+      accessorKey: "nome"
+    },
+    {
+      header: "Descrição",
+      accessorKey: "descricao"
+    },
+    {
+      header: "finalidade",
+      accessorKey: "finalidade",
+      cell: info => {
+        const type = info.getValue() as CategoriaFinalidade
+        const color = type === CategoriaFinalidade.despesa ? "red" : type === CategoriaFinalidade.receita ? "green" : "blue"
+        return (
+          <Badge variant="soft" radius="full" color={color}>
+            {Object.entries(CategoriaFinalidade).find(([_, value]) => value === type)?.[0] ?? "desconhecido"}
+          </Badge>
+        )
+      }
     }
   ]
 
