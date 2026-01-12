@@ -23,6 +23,9 @@ export const pessoaService = {
   listarDetalhado: async (query: PaginatedQuery, signal: AbortSignal | undefined = undefined): Promise<Paginated<Pessoa>> =>
     (await api.get('/pessoa/detalhado', { params: query, signal: signal })).data,
 
+  buscarPorId: async (id: string, signal: AbortSignal | undefined = undefined): Promise<Pessoa> =>
+    (await api.get(`/pessoa/${id}`, { signal: signal })).data,
+
   criar: async (data: CriarPessoaCommand, signal: AbortSignal | undefined = undefined): Promise<void> =>
     (await api.post('/pessoa', data, { signal: signal })).data,
 

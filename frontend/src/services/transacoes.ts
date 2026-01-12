@@ -17,12 +17,14 @@ export interface CriarTransacaoCommand {
 }
 
 export interface Transacao {
+  id: string;
   descricao: string;
   valor: number;
-  tipo: TipoTransacao;
-  pessoaId: string;
-  categoriaId: string;
-  data?: string;
+  tipoTransacao: TipoTransacao;
+  pessoa: string;
+  categoria: string;
+  data?: Date;
+  criadoEm: Date;
 }
 
 export const transacoesService = {
