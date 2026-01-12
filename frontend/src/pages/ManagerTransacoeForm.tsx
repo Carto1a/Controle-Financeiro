@@ -1,52 +1,93 @@
-import { Button, Flex, TextField, Text, Select } from "@radix-ui/themes";
 import { z } from "zod";
-import { Controller, FormProvider, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { transacaoFinalidade, categoriasService, type CriarCategoriaCommand } from "@/services/categorias";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import toast from "react-hot-toast";
+import { TipoTransacao, transacoesService, type CriarTransacaoCommand } from "@/services/transacoes";
+import ManagerForm from "@/components/manager-form";
+import ControllerField from "@/components/controllerField";
+import { Input } from "@/components/ui/input";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { pessoaService, type PessoaSimples } from "@/services/pessoas";
+import { categoriasService, type CategoriaSimples } from "@/services/categorias";
+import { NumberInput } from "@/components/input-number";
 
 const transacaoSchema = z.object({
-  nome: z.string().min(1, "Nome obrigatório"),
   descricao: z.string().min(1, "Descrição obrigatória"),
-  finalidade: z.string().refine(
-    (v) => Object.values(transacaoFinalidade).map(String).includes(v),
-    { message: "Finalidade obrigatória" }
+  valor: z.number().positive("Valor deve ser maior que 0"),
+  pessoaId: z.uuid({ error: "Id de Pessoa inválido" }),
+  categoriaId: z.uuid({ error: "Id de Categoria inválido" }),
+  data: z.date().optional(),
+  tipo: z.string().refine(
+    (v) => Object.values(TipoTransacao).map(String).includes(v),
+    { message: "Tipo obrigatório" }
   ),
 });
 
-type transacaoFormData = z.infer<typeof categoriaSchema>;
+type TransacaoFormData = z.infer<typeof transacaoSchema>;
 
-function usetransacaoForm() {
-  return useForm<transacaoFormData>({
+function useTransacaoForm() {
+  return useForm<TransacaoFormData>({
     resolver: zodResolver(transacaoSchema),
     defaultValues: {
-      finalidade: ""
+      tipo: "",
+      valor: 0
     }
   });
 }
 
-export interface ManagertransacaoFormProps { onCreated: () => void, onCancel: () => void }
-export default function ManagertransacaoForm(props: ManagerCategoriaFormProps) {
+export interface ManagerTransacaoFormProps { onCreated: () => void, onCancel: () => void }
+export default function ManagerTransacaoForm(props: ManagerTransacaoFormProps) {
   const abortControllerRef = useRef<AbortController | null>(null);
-  const methods = usetransacaoForm();
+  const methods = useTransacaoForm();
   const [loading, setLoading] = useState(false);
+  const [loadingPessoas, setLoadingPessoas] = useState(false);
+  const [pessoas, setPessoas] = useState([] as PessoaSimples[]);
+  const [loadingCategorias, setLoadingCategorias] = useState(false);
+  const [categorias, setCategorias] = useState([] as CategoriaSimples[]);
   abortControllerRef.current = new AbortController();
   const signal = abortControllerRef.current.signal;
 
-  async function onSubmit(data: transacaoFormData) {
-    setLoading(true);
+  async function getPessoas() {
+    setLoadingPessoas(true);
 
     try {
-      let request: CriartransacaoCommand = {
-        nome: data.nome,
-        descricao: data.descricao,
-        finalidade: parseInt(data.finalidade) as transacaoFinalidade
-      }
+      setPessoas(await pessoaService.listar());
+    } catch (_) {
+      toast.error("Erro ao buscar pessoas");
+    } finally {
+      setLoadingPessoas(false);
+    }
+  }
 
-      await transacaosService.criar(request, signal);
+  async function getCategorias() {
+    setLoadingCategorias(true);
 
-      toast.success("transacao criada com sucesso!");
+    try {
+      setCategorias(await categoriasService.listar());
+    } catch (_) {
+      toast.error("Erro ao buscar categorias");
+    } finally {
+      setLoadingCategorias(false);
+    }
+  }
+
+  async function onSubmit(data: TransacaoFormData) {
+    setLoading(true);
+
+    let request: CriarTransacaoCommand = {
+      descricao: data.descricao,
+      valor: data.valor,
+      pessoaId: data.pessoaId,
+      categoriaId: data.categoriaId,
+      data: data.data?.toISOString(),
+      tipo: parseInt(data.tipo) as TipoTransacao
+    }
+
+    try {
+      await transacoesService.criar(request, signal);
+
+      toast.success("Transacao criada com sucesso!");
       methods.reset();
       props.onCreated?.();
     } catch (err: any) {
@@ -65,65 +106,106 @@ export default function ManagertransacaoForm(props: ManagerCategoriaFormProps) {
     props.onCancel?.();
   }
 
-  return (
-    <FormProvider {...methods}>
-      <form onSubmit={methods.handleSubmit(onSubmit)}>
-        <Flex direction="column" gap="3">
-          <label>
-            <Text as="div" size="2" mb="1" weight="bold">
-              Nome
-            </Text>
-            <TextField.Root {...methods.register("nome")} />
-          </label>
-          {methods.formState.errors.nome && (
-            <span className="text-red-500 text-sm">
-              {methods.formState.errors.nome.message}
-            </span>
-          )}
-          <label>
-            <Text as="div" size="2" mb="1" weight="bold">
-              Descrição
-            </Text>
-            <TextField.Root {...methods.register("descricao")} />
-          </label>
-          {methods.formState.errors.descricao && (
-            <span className="text-red-500 text-sm">
-              {methods.formState.errors.descricao.message}
-            </span>
-          )}
-          <label>
-            <Text as="div" size="2" mb="1" weight="bold">
-              Nome
-            </Text>
-            <Controller
-              name="finalidade"
-              control={methods.control}
-              render={({ field }) => (
-                <Select.Root value={field.value} onValueChange={field.onChange}>
-                  <Select.Trigger placeholder="Selecione a finalidade" />
-                  <Select.Content>
-                    {Object.entries(transacaoFinalidade).map(([label, value]) =>
-                      <Select.Item key={value} value={value.toString()}>{label}</Select.Item>
-                    )}
-                  </Select.Content>
-                </Select.Root>
-              )}
-            />
-          </label>
-          {methods.formState.errors.finalidade && (
-            <span className="text-red-500 text-sm">
-              {methods.formState.errors.finalidade.message}
-            </span>
-          )}
-        </Flex>
+  useEffect(() => {
+    getPessoas();
+    getCategorias();
+  }, []);
 
-        <Flex gap="3" mt="4" justify="end">
-          <Button type="button" variant="soft" color="gray" onClick={handleCancel}>
-            Cancelar
-          </Button>
-          <Button type="submit" disabled={!methods.formState.isValid} loading={loading}>Criar</Button>
-        </Flex>
-      </form>
-    </FormProvider>
+  return (
+    <ManagerForm
+      form={methods}
+      handleSubmit={onSubmit}
+      loading={loading}
+      handleCancel={handleCancel}
+    >
+      <ControllerField<TransacaoFormData>
+        name="descricao"
+        label="Descrição"
+        control={methods.control}
+        compoment={({ value, onChange }) => (
+          <Input value={value} onChange={onChange} />
+        )}
+      />
+
+      <ControllerField<TransacaoFormData>
+        name="valor"
+        label="Valor"
+        control={methods.control}
+        compoment={({ value, onChange }) => (
+          <NumberInput
+            decimalScale={2}
+            thousandSeparator={','}
+            value={value}
+            onValueChange={onChange}
+          />
+        )}
+      />
+
+      <ControllerField<TransacaoFormData>
+        name="pessoaId"
+        label="Pessoa"
+        control={methods.control}
+        compoment={({ value, onChange }) => (
+          <Select value={value} onValueChange={onChange}>
+            <SelectTrigger loading={loadingPessoas} className="!w-1/2">
+              <SelectValue placeholder={
+                !loadingCategorias && categorias.length == 0 ?
+                  "Não existe pessoas" : "Selecione uma pessoa"}
+              />
+            </SelectTrigger>
+            <SelectContent>
+              {pessoas.map(value =>
+                <SelectItem key={value.id} value={value.id}>
+                  {value.nome}
+                </SelectItem>
+              )}
+            </SelectContent>
+          </Select>
+        )}
+      />
+
+      <ControllerField<TransacaoFormData>
+        name="categoriaId"
+        label="Categoria"
+        control={methods.control}
+        compoment={({ value, onChange }) => (
+          <Select value={value} onValueChange={onChange}>
+            <SelectTrigger loading={loadingCategorias} className="!w-1/2">
+              <SelectValue placeholder={
+                !loadingCategorias && categorias.length == 0 ?
+                  "Não existe categorias" : "Selecione uma categoria"}
+              />
+            </SelectTrigger>
+            <SelectContent>
+              {categorias.map(value =>
+                <SelectItem key={value.id} value={value.id}>
+                  {value.nome}
+                </SelectItem>
+              )}
+            </SelectContent>
+          </Select>
+        )}
+      />
+
+      <ControllerField<TransacaoFormData>
+        name="tipo"
+        label="Tipo"
+        control={methods.control}
+        compoment={({ value, onChange }) => (
+          <Select value={value} onValueChange={onChange}>
+            <SelectTrigger className="!w-1/2">
+              <SelectValue placeholder="Selecione um tipo" />
+            </SelectTrigger>
+            <SelectContent>
+              {Object.entries(TipoTransacao).map(([label, value]) =>
+                <SelectItem key={value} value={value.toString()}>
+                  {label}
+                </SelectItem>
+              )}
+            </SelectContent>
+          </Select>
+        )}
+      />
+    </ManagerForm>
   )
 }
