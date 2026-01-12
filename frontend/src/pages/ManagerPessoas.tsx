@@ -7,6 +7,7 @@ import { useMemo, useState } from "react";
 import ManagerPessoaForm from "./ManagerPessoaForm";
 import { pessoaService, type Pessoa } from "@/services/pessoas";
 import { Button } from "@/components/ui/button";
+import toast from "react-hot-toast";
 
 export default function ManagerPessoas() {
   const [dialogOpen, setDialogOpen] = useState(false);
@@ -52,6 +53,20 @@ export default function ManagerPessoas() {
     },
   })
 
+  async function handleDelete(id: unknown) {
+    if (typeof id !== "string") {
+      toast.error("Não foi possivel deletar a pessoa")
+      return;
+    }
+
+    try {
+      await pessoaService.deletar(id);
+      toast.success("Pessoa deletada com sucesso");
+    } catch (error) {
+      toast.error("Erro ao excluir o registro");
+    }
+  }
+
   return (
     <>
       <div className="flex flex-col items-end">
@@ -71,7 +86,7 @@ export default function ManagerPessoas() {
         </Dialog.Root>
 
       </div>
-      <DataTable table={table} dataQuery={dataQuery} />
+      <DataTable table={table} dataQuery={dataQuery} deleteHandle={handleDelete} />
     </>
   )
 }

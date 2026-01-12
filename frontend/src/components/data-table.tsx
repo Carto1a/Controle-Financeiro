@@ -12,17 +12,30 @@ import { ChevronLeft, ChevronRight } from "lucide-react"
 import { flexRender } from "@tanstack/react-table"
 import type { UseQueryResult } from "@tanstack/react-query"
 import type { Paginated } from "@/api/axios"
+import { Trash } from 'lucide-react';
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "./ui/alert-dialog"
 
 export interface DataTableProps<TData, TTotal> {
   table: import("@tanstack/table-core").Table<TData>
   dataQuery: UseQueryResult<Paginated<TData>, unknown>
-  totalQuery?: UseQueryResult<TTotal, unknown>
+  totalQuery?: UseQueryResult<TTotal, unknown>,
+  deleteHandle?: (id: unknown) => void;
+  idAccessor?: keyof TData;
 }
 
 export default function DataTable<TData, TTotal>(props: DataTableProps<TData, TTotal>) {
   const hasTotals = props.table
     .getAllColumns()
     .some(col => col.columnDef.meta?.total);
+
+  function handleDelete(row: TData) {
+    var key = props.idAccessor ?? "id"
+    var id = row[key as keyof TData]
+    if (id == undefined)
+      return;
+
+    props.deleteHandle?.(id)
+  }
 
   return (
     <div className="flex flex-col justify-between h-full gap-4 rounded-md overflow-auto border">
@@ -55,6 +68,36 @@ export default function DataTable<TData, TTotal>(props: DataTableProps<TData, TT
                       )}
                     </TableCell>
                   ))}
+                  {props.deleteHandle && (
+                    <TableCell align="right">
+                      <AlertDialog>
+                        <AlertDialogTrigger asChild>
+                          <Button size={"icon"} variant={"outline"}>
+                            <Trash size={18} color="red" />
+                          </Button>
+                        </AlertDialogTrigger>
+                        <AlertDialogContent>
+                          <AlertDialogHeader>
+                            <AlertDialogTitle>Confirmar exclusão</AlertDialogTitle>
+                            <AlertDialogDescription>
+                              Esta ação não pode ser desfeita.
+                              <br />
+                              Ao confirmar, o registro será excluído permanentemente do sistema.
+                            </AlertDialogDescription>
+                          </AlertDialogHeader>
+                          <AlertDialogFooter>
+                            <AlertDialogCancel>Cancelar</AlertDialogCancel>
+                            <AlertDialogAction
+                              className="bg-red-600"
+                              onClick={() => handleDelete(row.original)}
+                            >
+                              Confimar
+                            </AlertDialogAction>
+                          </AlertDialogFooter>
+                        </AlertDialogContent>
+                      </AlertDialog>
+                    </TableCell>
+                  )}
                 </TableRow>
               ))}
             </TableBody>
