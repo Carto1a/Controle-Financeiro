@@ -9,6 +9,7 @@ public class Categoria
     public string Descricao { get; private set; }
     public Finalidade Finalidade { get; private set; }
 
+    private Categoria() { }
     public Categoria(Guid id, string nome, string descricao, Finalidade finalidade)
     {
         Id = id;
