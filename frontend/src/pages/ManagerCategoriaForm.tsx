@@ -8,6 +8,7 @@ import { useRef, useState } from "react";
 import toast from "react-hot-toast";
 import ControllerField from "@/components/controllerField";
 import { Input } from "@/components/ui/input";
+import ManagerForm from "@/components/manager-form";
 
 const categoriaSchema = z.object({
   nome: z.string().min(1, "Nome obrigatório"),
@@ -69,51 +70,44 @@ export default function ManagerCategoriaForm(props: ManagerCategoriaFormProps) {
   }
 
   return (
-    <FormProvider {...methods}>
-      <form onSubmit={methods.handleSubmit(onSubmit)}>
-        <Flex direction="column" gap="3">
-          <ControllerField<CategoriaFormData>
-            name="nome"
-            label="Nome"
-            control={methods.control}
-            compoment={({ value, onChange }) => (
-              <Input value={value} onChange={onChange}/>
-            )}
-          />
-          <ControllerField<CategoriaFormData>
-            name="descricao"
-            label="Descrição"
-            control={methods.control}
-            compoment={({ value, onChange }) => (
-              <Input value={value} onChange={onChange}/>
-            )}
-          />
-          <ControllerField<CategoriaFormData>
-            name="finalidade"
-            label="Finalidade"
-            control={methods.control}
-            compoment={({ value, onChange }) => (
-              <Select value={value} onValueChange={onChange}>
-                <SelectTrigger className="!w-1/2">
-                  <SelectValue placeholder="Selecione a finalidade" />
-                </SelectTrigger>
-                <SelectContent>
-                  {Object.entries(CategoriaFinalidade).map(([label, value]) =>
-                    <SelectItem key={value} value={value.toString()}>{label}</SelectItem>
-                  )}
-                </SelectContent>
-              </Select>
-            )}
-          />
-        </Flex>
-
-        <Flex gap="3" mt="4" justify="end">
-          <Button type="button" variant="soft" color="gray" onClick={handleCancel}>
-            Cancelar
-          </Button>
-          <Button type="submit" disabled={methods.formState.isLoading} loading={loading}>Criar</Button>
-        </Flex>
-      </form>
-    </FormProvider>
+    <ManagerForm
+      form={methods}
+      handleSubmit={onSubmit}
+      loading={loading}
+      handleCancel={handleCancel}
+    >
+      <ControllerField<CategoriaFormData>
+        name="nome"
+        label="Nome"
+        control={methods.control}
+        compoment={({ value, onChange }) => (
+          <Input value={value} onChange={onChange} />
+        )} />
+      <ControllerField<CategoriaFormData>
+        name="descricao"
+        label="Descrição"
+        control={methods.control}
+        compoment={({ value, onChange }) => (
+          <Input value={value} onChange={onChange} />
+        )} />
+      <ControllerField<CategoriaFormData>
+        name="finalidade"
+        label="Finalidade"
+        control={methods.control}
+        compoment={({ value, onChange }) => (
+          <Select value={value} onValueChange={onChange}>
+            <SelectTrigger className="!w-1/2">
+              <SelectValue placeholder="Selecione a finalidade" />
+            </SelectTrigger>
+            <SelectContent>
+              {Object.entries(CategoriaFinalidade).map(([label, value]) =>
+                <SelectItem key={value} value={value.toString()}>
+                  {label}
+                </SelectItem>
+              )}
+            </SelectContent>
+          </Select>
+        )} />
+    </ManagerForm>
   )
 }
