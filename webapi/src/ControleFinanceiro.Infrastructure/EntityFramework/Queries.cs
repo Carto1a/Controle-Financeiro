@@ -13,6 +13,7 @@ public class Queries(AppDbContext context) : IQueries
     public Task<List<ObterListaCategoriasBasicaResponse>> ObterListaCategoriasBasica(CancellationToken cancellationToken = default)
     {
         return _context.Categorias
+            .AsNoTracking()
             .Select(x => new ObterListaCategoriasBasicaResponse(x.Id, x.Descricao))
             .ToListAsync(cancellationToken);
     }
@@ -40,6 +41,7 @@ public class Queries(AppDbContext context) : IQueries
     public Task<List<ObterListaPessoasBasicaResponse>> ObterListaPessoasBasica(CancellationToken cancellationToken = default)
     {
         return _context.Pessoas
+            .AsNoTracking()
             .Select(x => new ObterListaPessoasBasicaResponse(x.Id, x.Nome))
             .ToListAsync(cancellationToken);
     }
@@ -209,6 +211,7 @@ public class Queries(AppDbContext context) : IQueries
     public Task<ResumoFinanceiroValoresResponse> ObterResumoFinanceiroTotal(CancellationToken cancellationToken = default)
     {
         return _context.Transacaos
+            .AsNoTracking()
             .GroupBy(x => 1)
             .Select(x => new ResumoFinanceiroValoresResponse()
             {
