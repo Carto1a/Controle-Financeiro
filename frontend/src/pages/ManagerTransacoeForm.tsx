@@ -11,6 +11,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { pessoaService, type PessoaSimples } from "@/services/pessoas";
 import { categoriasService, type CategoriaSimples } from "@/services/categorias";
 import { NumberInput } from "@/components/input-number";
+import { DateTimePicker } from "@/components/date-time-picker";
 
 const transacaoSchema = z.object({
   descricao: z.string().min(1, "Descrição obrigatória"),
@@ -185,6 +186,15 @@ export default function ManagerTransacaoForm(props: ManagerTransacaoFormProps) {
               )}
             </SelectContent>
           </Select>
+        )}
+      />
+
+      <ControllerField<TransacaoFormData>
+        name="data"
+        label="Data"
+        control={methods.control}
+        compoment={({ value, onChange }) => (
+          <DateTimePicker value={value} onChange={onChange} />
         )}
       />
 
