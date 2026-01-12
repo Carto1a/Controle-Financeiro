@@ -91,7 +91,7 @@ public class Queries(AppDbContext context) : IQueries
                 x.Id,
                 x.Descricao,
                 x.Valor,
-                TipoTransacao = x.TipoTransacao.ToString(),
+                x.TipoTransacao,
                 Categoria = x.Categoria ?? "sem nome",
                 x.Data,
                 x.CriadoEm

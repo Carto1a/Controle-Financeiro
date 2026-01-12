@@ -1,5 +1,6 @@
 using ControleFinanceiro.Application.Abstractions.Data;
 using ControleFinanceiro.Application.DataLayer;
+using ControleFinanceiro.Domain.Transacoes;
 using FluentResults;
 
 namespace ControleFinanceiro.Application.UseCases;
@@ -8,7 +9,7 @@ public record ObterListaTransacoesDetalhadaResponse(
     Guid Id,
     string Descricao,
     decimal Valor,
-    string TipoTransacao,
+    TipoTransacao TipoTransacao,
     string Categoria,
     DateTime Data,
     DateTime CriadoEm);
