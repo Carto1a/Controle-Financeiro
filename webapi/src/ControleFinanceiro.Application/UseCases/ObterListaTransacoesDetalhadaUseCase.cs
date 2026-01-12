@@ -10,7 +10,8 @@ public record ObterListaTransacoesDetalhadaResponse(
     string Descricao,
     decimal Valor,
     TipoTransacao TipoTransacao,
-    string Categoria,
+    ObterListaCategoriasBasicaResponse Categoria,
+    ObterListaPessoasBasicaResponse Pessoa,
     DateTime Data,
     DateTime CriadoEm);
 

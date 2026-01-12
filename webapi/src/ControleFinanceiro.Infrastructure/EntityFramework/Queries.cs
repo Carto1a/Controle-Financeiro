@@ -79,12 +79,28 @@ public class Queries(AppDbContext context) : IQueries
                 (transacao, categoria) => new
                 {
                     transacao.Id,
+                    PessoaId = EF.Property<Guid>(transacao, "PessoaId"),
                     transacao.Descricao,
                     transacao.TipoTransacao,
                     transacao.Valor,
                     transacao.Data,
                     transacao.CriadoEm,
-                    Categoria = categoria != null ? categoria.Nome : "sem nome"
+                    Categoria = categoria
+                })
+            .LeftJoin(
+                _context.Pessoas,
+                transacao => transacao.PessoaId,
+                pessoa => pessoa.Id,
+                (transacao, pessoa) => new
+                {
+                    transacao.Id,
+                    transacao.Descricao,
+                    transacao.TipoTransacao,
+                    transacao.Valor,
+                    transacao.Data,
+                    transacao.CriadoEm,
+                    transacao.Categoria,
+                    Pessoa = pessoa
                 })
             .Select(x => new
             {
@@ -92,7 +108,10 @@ public class Queries(AppDbContext context) : IQueries
                 x.Descricao,
                 x.Valor,
                 x.TipoTransacao,
-                Categoria = x.Categoria ?? "sem nome",
+                CategoriaId = x.Categoria.Id,
+                CategoriaNome = x.Categoria.Nome,
+                PessoaId = x.Pessoa.Id,
+                PessoaNome = x.Pessoa.Nome,
                 x.Data,
                 x.CriadoEm
             });
@@ -110,7 +129,8 @@ public class Queries(AppDbContext context) : IQueries
                 x.Descricao,
                 x.Valor,
                 x.TipoTransacao,
-                x.Categoria ?? "sem nome",
+                new ObterListaCategoriasBasicaResponse(x.CategoriaId, x.CategoriaNome),
+                new ObterListaPessoasBasicaResponse(x.PessoaId, x.PessoaNome),
                 x.Data,
                 x.CriadoEm))
             .ToList();
