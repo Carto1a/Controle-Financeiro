@@ -2,9 +2,10 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ControleFinanceiro.Infrastructure.Middlewares;
 
-public class ExceptionHandlingMiddleware(RequestDelegate next)
+public class ExceptionHandlingMiddleware(RequestDelegate next, ILogger<ExceptionHandlingMiddleware> logger)
 {
     private readonly RequestDelegate _next = next;
+    private readonly ILogger _logger = logger;
 
     public async Task InvokeAsync(HttpContext context)
     {
@@ -14,6 +15,8 @@ public class ExceptionHandlingMiddleware(RequestDelegate next)
         }
         catch (Exception exception)
         {
+            _logger.LogError(exception, "Ocorreu uma exceção: {Message}", exception.Message);
+
             var exceptionDetails = GetExceptionDetails(exception);
 
             var problemDetails = new ProblemDetails

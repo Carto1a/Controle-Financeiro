@@ -49,9 +49,10 @@ public class PessoaController : ControllerBase
     [HttpGet("detalhado")]
     public async Task<IActionResult> ListarDetalhada(
         [FromServices] ObterListaPessoasDetalhadaQueryHandler handler,
+        [FromQuery] ObterListaPessoasDetalhadaQuery query,
         CancellationToken cancellationToken)
     {
-        var result = await handler.Handle(cancellationToken);
+        var result = await handler.Handle(query, cancellationToken);
         if (result.IsFailed)
             return BadRequest(result.Errors);
 

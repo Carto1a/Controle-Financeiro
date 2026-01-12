@@ -1,4 +1,8 @@
+using ControleFinanceiro.Application.Abstractions.Data;
+
 namespace ControleFinanceiro.Application.UseCases;
+
+public record ObterResumoFinanceiroPaginatedQuery(int Pagina, int TamanhoPagina) : IPagination;
 
 public record ResumoFinanceiroValoresResponse
 {

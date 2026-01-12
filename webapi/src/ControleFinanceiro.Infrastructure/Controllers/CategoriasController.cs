@@ -36,9 +36,10 @@ public class CategoriasController : ControllerBase
     [HttpGet("detalhado")]
     public async Task<IActionResult> ListarDetalhada(
         [FromServices] ObterListaCategoriasDetalhadaQueryHandler handler,
+        [FromQuery] ObterListaCategoriasDetalhadaQuery query,
         CancellationToken cancellationToken)
     {
-        var result = await handler.Handle(cancellationToken);
+        var result = await handler.Handle(query, cancellationToken);
         if (result.IsFailed)
             return BadRequest(result.Errors);
 

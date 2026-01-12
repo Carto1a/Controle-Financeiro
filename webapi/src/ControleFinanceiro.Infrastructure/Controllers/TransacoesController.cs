@@ -24,9 +24,10 @@ public class TransacoesController : ControllerBase
     [HttpGet("detalhado")]
     public async Task<IActionResult> ListarDetalhada(
         [FromServices] ObterListaTransacoesDetalhadaQueryHandler handler,
+        [FromQuery] ObterListaTransacoesDetalhadaQuery query,
         CancellationToken cancellationToken)
     {
-        var result = await handler.Handle(cancellationToken);
+        var result = await handler.Handle(query, cancellationToken);
         if (result.IsFailed)
             return BadRequest(result.Errors);
 

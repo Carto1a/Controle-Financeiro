@@ -1,3 +1,4 @@
+using ControleFinanceiro.Application.Abstractions.Data;
 using ControleFinanceiro.Application.DataLayer;
 using FluentResults;
 
@@ -12,10 +13,19 @@ public record ObterListaTransacoesDetalhadaResponse(
     DateTime Data,
     DateTime CriadoEm);
 
+public record ObterListaTransacoesDetalhadaQuery(int Pagina, int TamanhoPagina) : IPagination;
+
 public class ObterListaTransacoesDetalhadaQueryHandler(IQueries queries)
 {
     private readonly IQueries _queries = queries;
 
-    public async Task<Result<List<ObterListaTransacoesDetalhadaResponse>>> Handle(CancellationToken cancellationToken = default)
-        => await _queries.ObterListaTransacoesDetalhada(cancellationToken);
+    public async Task<Result<PaginatedResponse<ObterListaTransacoesDetalhadaResponse>>> Handle(
+        ObterListaTransacoesDetalhadaQuery request,
+        CancellationToken cancellationToken = default)
+    {
+        var resultPagination = Pagination.Validate(request);
+        if (resultPagination.IsFailed) return Result.Fail(resultPagination.Errors);
+
+        return await _queries.ObterListaTransacoesDetalhada(request, cancellationToken);
+    }
 }

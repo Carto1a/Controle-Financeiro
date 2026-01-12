@@ -4,6 +4,7 @@ using Microsoft.OpenApi;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddLogging(builder => builder.AddConsole());
 builder.Services.ConfigureCors(builder.Configuration);
 builder.Services.AddOpenApi();
 builder.Services.AddControllers();

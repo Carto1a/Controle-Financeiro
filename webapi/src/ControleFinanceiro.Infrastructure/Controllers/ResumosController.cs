@@ -23,9 +23,10 @@ public class ResumosController : ControllerBase
     [HttpGet("financeiro/pessoas")]
     public async Task<IActionResult> FinanceiroPessoas(
         [FromServices] ObterResumoFinanceiroPorPessoaQueryHandler handler,
+        [FromQuery] ObterResumoFinanceiroPaginatedQuery query,
         CancellationToken cancellationToken)
     {
-        var result = await handler.Handle(cancellationToken);
+        var result = await handler.Handle(query, cancellationToken);
         if (result.IsFailed)
             return BadRequest(result.Errors);
 
@@ -35,9 +36,10 @@ public class ResumosController : ControllerBase
     [HttpGet("financeiro/categorias")]
     public async Task<IActionResult> FinanceiroCategorias(
         [FromServices] ObterResumoFinanceiroPorCategoriaQueryHandler handler,
+        [FromQuery] ObterResumoFinanceiroPaginatedQuery query,
         CancellationToken cancellationToken)
     {
-        var result = await handler.Handle(cancellationToken);
+        var result = await handler.Handle(query, cancellationToken);
         if (result.IsFailed)
             return BadRequest(result.Errors);
 
