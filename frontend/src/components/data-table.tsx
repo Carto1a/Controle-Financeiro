@@ -1,8 +1,13 @@
 import { IconButton, Table, Text } from "@radix-ui/themes"
 import { ChevronRight, ChevronLeft } from 'lucide-react';
 import { flexRender, } from "@tanstack/react-table"
+import type { UseQueryResult } from "@tanstack/react-query";
+import type { Paginated } from "@/api/axios";
 
-export interface DataTableProps<TData> { table: import("@tanstack/table-core").Table<TData> }
+export interface DataTableProps<TData> {
+  table: import("@tanstack/table-core").Table<TData>
+  dataQuery: UseQueryResult<Paginated<TData>, unknown>
+}
 export default function DataTable<TData extends unknown>(props: DataTableProps<TData>) {
   return (
     <div className="flex flex-col justify-between h-full">
@@ -53,7 +58,7 @@ export default function DataTable<TData extends unknown>(props: DataTableProps<T
 
       <div className="flex items-center justify-between gap-4 bg-gray-100 rounded-md">
         <Text className="text-md font-medium text-gray-700">
-          Total de items: {props.table.getRowCount()}
+          Total de items: {props.dataQuery.data?.total ?? 0}
         </Text>
 
         <div className="flex items-center gap-2">
@@ -66,7 +71,7 @@ export default function DataTable<TData extends unknown>(props: DataTableProps<T
           </IconButton>
 
           <Text className="text-md font-medium text-gray-700">
-            {props.table.getPageCount()}
+            {props.table.getState().pagination.pageIndex + 1}
           </Text>
 
           <IconButton

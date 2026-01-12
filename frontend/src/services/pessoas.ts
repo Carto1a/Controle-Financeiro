@@ -1,4 +1,4 @@
-import { api, type Paginated } from "../api/axios";
+import { api, type Paginated, type PaginatedQuery } from "../api/axios";
 
 export interface CriarPessoaCommand {
   nome?: string;
@@ -20,8 +20,8 @@ export const pessoaService = {
   listar: async (signal: AbortSignal | undefined = undefined): Promise<PessoaSimples[]> =>
     (await api.get('/pessoa', { signal: signal })).data,
 
-  listarDetalhado: async (signal: AbortSignal | undefined = undefined): Promise<Paginated<Pessoa>> =>
-    (await api.get('/pessoa/detalhado', { signal: signal })).data,
+  listarDetalhado: async (query: PaginatedQuery, signal: AbortSignal | undefined = undefined): Promise<Paginated<Pessoa>> =>
+    (await api.get('/pessoa/detalhado', { params: query, signal: signal })).data,
 
   criar: async (data: CriarPessoaCommand, signal: AbortSignal | undefined = undefined): Promise<void> =>
     (await api.post('/pessoa', data, { signal: signal })).data,

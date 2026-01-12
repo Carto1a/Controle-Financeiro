@@ -1,4 +1,4 @@
-import { api, type Paginated } from "../api/axios";
+import { api, type Paginated, type PaginatedQuery } from "../api/axios";
 
 export const TipoTransacao = {
   receita: 0,
@@ -29,7 +29,7 @@ export const transacoesService = {
   criar: async (data: CriarTransacaoCommand, signal: AbortSignal | undefined = undefined): Promise<void> =>
     (await api.post('/transacoes', data, { signal: signal })).data,
 
-  listarDetalhado: async (signal: AbortSignal | undefined = undefined): Promise<Paginated<Transacao>> =>
-    (await api.get('/transacoes/detalhado', { signal: signal })).data,
+  listarDetalhado: async (query: PaginatedQuery, signal: AbortSignal | undefined = undefined): Promise<Paginated<Transacao>> =>
+    (await api.get('/transacoes/detalhado', { params: query, signal: signal })).data,
 };
 

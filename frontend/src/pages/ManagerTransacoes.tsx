@@ -31,14 +31,15 @@ export default function ManagerTransacoes() {
 
   const dataQuery = useQuery<Paginated<Transacao>, unknown>({
     queryKey: ['data', pagination],
-    queryFn: () => transacoesService.listarDetalhado(),
+    queryFn: () => transacoesService.listarDetalhado({ pagina: pagination.pageIndex, tamanhoPagina: pagination.pageSize }),
     placeholderData: keepPreviousData,
   })
 
   const table = useReactTable({
     data: dataQuery.data?.items ?? defaultData,
     columns,
-    rowCount: dataQuery.data?.pageSize,
+    rowCount: dataQuery.data?.total ?? 0,
+    manualSorting: true,
     manualPagination: true,
     onPaginationChange: setPagination,
     getCoreRowModel: getCoreRowModel(),
@@ -67,7 +68,7 @@ export default function ManagerTransacoes() {
         </Dialog.Root>
 
       </div>
-      <DataTable table={table} />
+      <DataTable table={table} dataQuery={dataQuery} />
     </>
   )
 }

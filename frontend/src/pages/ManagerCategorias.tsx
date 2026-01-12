@@ -3,13 +3,18 @@ import DataTable from "@/components/data-table";
 import { categoriasService, type Categoria } from "@/services/categorias";
 import { Button, Dialog } from "@radix-ui/themes";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
-import { getCoreRowModel, getPaginationRowModel, getSortedRowModel, useReactTable, type ColumnDef, type PaginationState, type SortingState } from "@tanstack/react-table";
+import {
+  getCoreRowModel,
+  getPaginationRowModel,
+  useReactTable,
+  type ColumnDef,
+  type PaginationState
+} from "@tanstack/react-table";
 import { useMemo, useState } from "react";
 import ManagerCategoriaForm from "./ManagerCategoriaForm";
 
 export default function ManagerCategorias() {
   const [dialogOpen, setDialogOpen] = useState(false);
-  const [sorting, setSorting] = useState<SortingState>([])
   const [pagination, setPagination] = useState<PaginationState>({
     pageIndex: 0,
     pageSize: 10,
@@ -26,23 +31,21 @@ export default function ManagerCategorias() {
 
   const dataQuery = useQuery<Paginated<Categoria>, unknown>({
     queryKey: ['data', pagination],
-    queryFn: () => categoriasService.listarDetalhado(),
+    queryFn: () => categoriasService.listarDetalhado({ pagina: pagination.pageIndex, tamanhoPagina: pagination.pageSize }),
     placeholderData: keepPreviousData,
   })
 
   const table = useReactTable({
     data: dataQuery.data?.items ?? defaultData,
     columns,
-    rowCount: dataQuery.data?.pageSize,
+    rowCount: dataQuery.data?.total ?? 0,
     manualSorting: true,
     manualPagination: true,
-    onSortingChange: setSorting,
     onPaginationChange: setPagination,
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
-    getSortedRowModel: getSortedRowModel(),
     state: {
-      sorting
+      pagination
     },
   })
 
@@ -65,7 +68,7 @@ export default function ManagerCategorias() {
         </Dialog.Root>
 
       </div>
-      <DataTable table={table} />
+      <DataTable table={table} dataQuery={dataQuery} />
     </>
   )
 }

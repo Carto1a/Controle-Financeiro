@@ -25,14 +25,15 @@ export default function ManagerPessoas() {
 
   const dataQuery = useQuery<Paginated<Pessoa>, unknown>({
     queryKey: ['data', pagination],
-    queryFn: () => pessoaService.listarDetalhado(),
+    queryFn: () => pessoaService.listarDetalhado({ pagina: pagination.pageIndex, tamanhoPagina: pagination.pageSize }),
     placeholderData: keepPreviousData,
   })
 
   const table = useReactTable({
     data: dataQuery.data?.items ?? defaultData,
     columns,
-    rowCount: dataQuery.data?.pageSize,
+    rowCount: dataQuery.data?.total ?? 0,
+    manualSorting: true,
     manualPagination: true,
     onPaginationChange: setPagination,
     getCoreRowModel: getCoreRowModel(),
@@ -61,7 +62,7 @@ export default function ManagerPessoas() {
         </Dialog.Root>
 
       </div>
-      <DataTable table={table} />
+      <DataTable table={table} dataQuery={dataQuery} />
     </>
   )
 }

@@ -1,4 +1,4 @@
-import { api, type Paginated } from "../api/axios";
+import { api, type Paginated, type PaginatedQuery } from "../api/axios";
 
 export const CategoriaFinalidade = {
   despesa: 0,
@@ -29,8 +29,8 @@ export const categoriasService = {
   listar: async (signal: AbortSignal | undefined = undefined): Promise<CategoriaSimples[]> =>
     (await api.get('/categorias', { signal: signal })).data,
 
-  listarDetalhado: async (signal: AbortSignal | undefined = undefined): Promise<Paginated<Categoria>> =>
-    (await api.get('/categorias/detalhado', { signal: signal })).data,
+  listarDetalhado: async (query: PaginatedQuery, signal: AbortSignal | undefined = undefined): Promise<Paginated<Categoria>> =>
+    (await api.get('/categorias/detalhado', { params: query, signal: signal })).data,
 
   criar: async (data: CriarCategoriaCommand, signal: AbortSignal | undefined = undefined): Promise<void> =>
     (await api.post('/categorias', data, { signal: signal })).data,

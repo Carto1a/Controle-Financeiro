@@ -5,6 +5,11 @@ export const api = axios.create({
   timeout: 10000,
 });
 
+export interface PaginatedQuery {
+  pagina: number;
+  tamanhoPagina: number;
+}
+
 export interface Paginated<T> {
   page: number;
   pageSize: number;
