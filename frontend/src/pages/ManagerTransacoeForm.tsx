@@ -95,7 +95,7 @@ export default function ManagerTransacaoForm(props: ManagerTransacaoFormProps) {
       if (err.name == "AbortError") {
         toast.error("Resquisição cancelada");
       } else {
-        toast.error(err.message || "Erro inesperado");
+        toast.error(err.response.data[0].message || "Erro inesperado");
       }
     } finally {
       setLoading(false);
