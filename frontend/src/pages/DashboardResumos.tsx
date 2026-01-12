@@ -3,7 +3,6 @@ import Currency from "@/components/currency";
 import DataTable from "@/components/data-table";
 import { Button } from "@/components/ui/button";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
-import { formatCurrency } from "@/helpers";
 import { resumosService, type ResumoFinanceiro, type ResumoFinanceiroTotal } from "@/services/resumos";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import {

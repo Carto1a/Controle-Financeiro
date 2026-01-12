@@ -57,6 +57,10 @@ export default function ManagerTransacoes() {
       accessorKey: "pessoa",
       cell: info => {
         const pessoaSimples = info.getValue() as PessoaSimples;
+        if (!pessoaSimples) {
+          return <Text color="gray">—</Text>
+        }
+
         return (
           <HoverCardFetch<Pessoa>
             id={pessoaSimples.id}
@@ -77,6 +81,9 @@ export default function ManagerTransacoes() {
       accessorKey: "categoria",
       cell: info => {
         const categoriaSimples = info.getValue() as CategoriaSimples;
+        if (!categoriaSimples) {
+          return <Text color="gray">—</Text>
+        }
 
         return (
           <HoverCardFetch<Categoria>
