@@ -16,8 +16,16 @@ export default function ManagerPessoas() {
 
   const columns: ColumnDef<Pessoa>[] = [
     {
-      header: "Valor",
-      accessorKey: "value"
+      header: "Nome",
+      accessorKey: "nome"
+    },
+    {
+      header: "Data de Nascimento",
+      accessorKey: "dataNascimento",
+      cell: info => {
+        const date = new Date(info.getValue() as string)
+        return date.toLocaleDateString()
+      }
     }
   ]
 
