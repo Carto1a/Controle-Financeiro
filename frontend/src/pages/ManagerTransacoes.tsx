@@ -68,10 +68,14 @@ export default function ManagerTransacoes() {
             label={pessoaSimples.nome}
             fetch={pessoaService.buscarPorId}
             render={(pessoa) => (
-              <>
-                <Text>{pessoa.nome}</Text>
-                <Text>{new Date(pessoa.dataNascimento).toLocaleDateString()}</Text>
-              </>
+              <div className="flex flex-col gap-1 p-3">
+                <Text className="font-semibold text-gray-900 dark:text-gray-100 text-sm">
+                  {pessoa.nome}
+                </Text>
+                <Text className="text-gray-500 dark:text-gray-400 text-xs">
+                  Nascimento: {new Date(pessoa.dataNascimento).toLocaleDateString()}
+                </Text>
+              </div>
             )}
           />
         )
@@ -107,13 +111,21 @@ export default function ManagerTransacoes() {
                 "desconhecido";
 
               return (
-                <div className="space-y-1">
-                  <Text>{categoria.nome}</Text>
-                  <Text>{categoria.descricao}</Text>
-
-                  <Badge variant="soft" radius="full" color={color}>
+                <div className="flex flex-col gap-1 p-3">
+                  <Text className="font-semibold text-gray-900 dark:text-gray-100 text-sm">
+                    {categoria.nome}
+                  </Text>
+                  <Badge
+                    variant="soft"
+                    radius="full"
+                    color={color}
+                    className="!px-3 !text-sm !rounded-lg w-fit"
+                  >
                     {label}
                   </Badge>
+                  <Text className="text-gray-500 dark:text-gray-400 text-xs">
+                    {categoria.descricao}
+                  </Text>
                 </div>
               )
             }}
