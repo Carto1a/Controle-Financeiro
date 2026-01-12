@@ -1,8 +1,8 @@
 import { api, type Paginated, type PaginatedQuery } from "../api/axios";
 
 export const TipoTransacao = {
-  receita: 0,
-  despesa: 1,
+  despesa: 0,
+  receita: 1,
 } as const;
 
 export type TipoTransacao = typeof TipoTransacao[keyof typeof TipoTransacao];
