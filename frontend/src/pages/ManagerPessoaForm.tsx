@@ -1,11 +1,13 @@
-import { Button, Flex, TextField, Text } from "@radix-ui/themes";
 import { z } from "zod";
-import { Controller, FormProvider, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRef, useState } from "react";
 import toast from "react-hot-toast";
 import { pessoaService, type CriarPessoaCommand } from "@/services/pessoas";
 import { DatePicker } from "@/components/ui/datepicker";
+import ManagerForm from "@/components/manager-form";
+import { Input } from "@/components/ui/input";
+import ControllerField from "@/components/controllerField";
 
 const pessoaSchema = z.object({
   nome: z.string().min(1, "Nome obrigatório"),
@@ -61,49 +63,31 @@ export default function ManagerPessoaForm(props: ManagerPessoaFormProps) {
   }
 
   return (
-    <FormProvider {...methods}>
-      <form onSubmit={methods.handleSubmit(onSubmit)}>
-        <Flex direction="column" gap="3">
-          <label>
-            <Text as="div" size="2" mb="1" weight="bold">
-              Nome
-            </Text>
-            <TextField.Root {...methods.register("nome")} />
-          </label>
-          {methods.formState.errors.nome && (
-            <span className="text-red-500 text-sm">
-              {methods.formState.errors.nome.message}
-            </span>
-          )}
-          <label>
-            <Text as="div" size="2" mb="1" weight="bold">
-              Data de Nascimento
-            </Text>
-            <Controller
-              name="dataNascimento"
-              control={methods.control}
-              render={({ field }) => (
-                <DatePicker
-                  value={field.value}
-                  onChange={field.onChange}
-                />
-              )}
-            />
-          </label>
-          {methods.formState.errors.dataNascimento && (
-            <span className="text-red-500 text-sm">
-              {methods.formState.errors.dataNascimento.message}
-            </span>
-          )}
-        </Flex>
-
-        <Flex gap="3" mt="4" justify="end">
-          <Button type="button" variant="soft" color="gray" onClick={handleCancel}>
-            Cancelar
-          </Button>
-          <Button type="submit" disabled={methods.formState.isLoading} loading={loading}>Criar</Button>
-        </Flex>
-      </form>
-    </FormProvider>
+    <ManagerForm
+      form={methods}
+      handleSubmit={onSubmit}
+      loading={loading}
+      handleCancel={handleCancel}
+    >
+      <ControllerField<PessoaFormData>
+        name="nome"
+        label="Nome"
+        control={methods.control}
+        compoment={({ value, onChange }) => (
+          <Input value={value} onChange={onChange} />
+        )}
+      />
+      <ControllerField<PessoaFormData>
+        name="dataNascimento"
+        label="Data de Nascimento"
+        control={methods.control}
+        compoment={({ value, onChange }) => (
+          <DatePicker
+            value={value}
+            onChange={onChange}
+          />
+        )}
+      />
+    </ManagerForm>
   )
 }
