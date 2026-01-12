@@ -192,7 +192,7 @@ public class Queries(AppDbContext context) : IQueries
             .LeftJoin(
                 _context.Transacaos,
                 pessoa => pessoa.Id,
-                transacao => transacao.CategoriaId,
+                transacao => EF.Property<Guid>(transacao, "PessoaId"),
                 (pessoa, transacao) => new { Transacao = transacao, Pessoa = pessoa })
             .GroupBy(x => new { x.Pessoa.Id, x.Pessoa.Nome })
             .Select(x => new
