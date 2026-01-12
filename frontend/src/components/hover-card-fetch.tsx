@@ -1,5 +1,6 @@
 import { useState, type ReactElement } from "react";
 import { HoverCard, HoverCardContent, HoverCardTrigger } from "./ui/hover-card";
+import toast from "react-hot-toast";
 
 export interface HoverCardFetchProps<T> {
   label: string
@@ -18,6 +19,12 @@ export default function HoverCardFetch<T>(props: HoverCardFetchProps<T>) {
     try {
       const result = await props.fetch(props.id)
       setDetalhes(result)
+    } catch (err: any) {
+      if (err.name == "AbortError") {
+        toast.error("Resquisição cancelada");
+      } else {
+        toast.error(err.message || "Erro inesperado");
+      }
     } finally {
       setLoading(false)
     }
