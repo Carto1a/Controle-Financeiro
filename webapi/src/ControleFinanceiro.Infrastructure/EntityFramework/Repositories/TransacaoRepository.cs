@@ -10,6 +10,10 @@ public class TransacaoRepository(AppDbContext context) : ITransacaoRepository
     public void Criar(Transacao transacao)
     {
         _context.Transacaos.Add(transacao);
+        _context.Transacaos
+            .Entry(transacao)
+            .Property("TipoTransacaoId")
+            .CurrentValue = transacao.TipoTransacao;
     }
 
     public async Task DeletarPorPessoaIdAsync(Guid pessoaId, CancellationToken cancellationToken = default)

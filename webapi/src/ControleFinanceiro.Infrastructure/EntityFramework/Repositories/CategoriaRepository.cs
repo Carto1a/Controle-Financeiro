@@ -10,6 +10,10 @@ public class CategoriaRepository(AppDbContext context) : ICategoriaRepository
     public void Criar(Categoria categoria)
     {
         _context.Categorias.Add(categoria);
+        _context.Categorias
+            .Entry(categoria)
+            .Property("FinalidadeId")
+            .CurrentValue = categoria.Finalidade;
     }
 
     public Task<Categoria?> BuscarPorIdAsync(Guid id, CancellationToken cancellationToken = default)
