@@ -4,7 +4,7 @@ using FluentResults;
 
 namespace ControleFinanceiro.Application.UseCases;
 
-public record ObterListaPessoasDetalhadaResponse(Guid Id, string Nome);
+public record ObterListaPessoasDetalhadaResponse(Guid Id, string Nome, DateTime DataNascimento);
 public record ObterListaPessoasDetalhadaQuery(int Pagina, int TamanhoPagina) : IPagination;
 
 public class ObterListaPessoasDetalhadaQueryHandler(IQueries queries)

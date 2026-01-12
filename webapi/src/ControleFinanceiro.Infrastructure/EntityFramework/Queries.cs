@@ -52,7 +52,7 @@ public class Queries(AppDbContext context) : IQueries
     {
         var query = _context.Pessoas
             .AsNoTracking()
-            .Select(x => new { x.Id, x.Nome });
+            .Select(x => new { x.Id, x.Nome, x.DataNascimento });
 
         var total = await query.CountAsync();
         var paged = await query
@@ -61,7 +61,7 @@ public class Queries(AppDbContext context) : IQueries
             .Take(request.TamanhoPagina)
             .ToListAsync(cancellationToken);
 
-        var items = paged.Select(x => new ObterListaPessoasDetalhadaResponse(x.Id, x.Nome)).ToList();
+        var items = paged.Select(x => new ObterListaPessoasDetalhadaResponse(x.Id, x.Nome, x.DataNascimento)).ToList();
 
         return new PaginatedResponse<ObterListaPessoasDetalhadaResponse>(request, items, total);
     }
