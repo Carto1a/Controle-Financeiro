@@ -31,6 +31,6 @@ public class TransacoesController : ControllerBase
         if (result.IsFailed)
             return BadRequest(result.Errors);
 
-        return Ok(result.Errors);
+        return Ok(result.Value);
     }
 }
