@@ -1,7 +1,7 @@
 import type { Paginated } from "@/api/axios";
 import DataTable from "@/components/data-table";
 import { CategoriaFinalidade, categoriasService, type Categoria } from "@/services/categorias";
-import { Badge } from "@radix-ui/themes";
+import { Badge, Dialog } from "@radix-ui/themes";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import {
   getCoreRowModel,
@@ -13,7 +13,6 @@ import {
 import { useMemo, useState } from "react";
 import ManagerCategoriaForm from "./ManagerCategoriaForm";
 import { Button } from "@/components/ui/button";
-import { Dialog, DialogContent, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 
 export default function ManagerCategorias() {
   const [dialogOpen, setDialogOpen] = useState(false);
@@ -71,20 +70,20 @@ export default function ManagerCategorias() {
   return (
     <>
       <div className="flex flex-col items-end">
-        <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
-          <DialogTrigger>
+        <Dialog.Root open={dialogOpen} onOpenChange={setDialogOpen}>
+          <Dialog.Trigger>
             <Button className="!min-w-30 bg-green-500 text-white hover:bg-green-600">
               Criar
             </Button>
-          </DialogTrigger>
-          <DialogContent>
-            <DialogTitle>Nova Categoria</DialogTitle>
+          </Dialog.Trigger>
+          <Dialog.Content maxWidth="500px">
+            <Dialog.Title>Nova Categoria</Dialog.Title>
             <ManagerCategoriaForm
               onCreated={() => setDialogOpen(false)}
               onCancel={() => setDialogOpen(false)}
             />
-          </DialogContent>
-        </Dialog>
+          </Dialog.Content>
+        </Dialog.Root>
 
       </div>
       <DataTable table={table} dataQuery={dataQuery} />

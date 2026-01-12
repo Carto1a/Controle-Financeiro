@@ -1,7 +1,7 @@
 import type { Paginated } from "@/api/axios";
 import DataTable from "@/components/data-table";
 import { TipoTransacao, transacoesService, type Transacao } from "@/services/transacoes";
-import { Badge, Text } from "@radix-ui/themes";
+import { Badge, Dialog, Text } from "@radix-ui/themes";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import {
   getCoreRowModel,
@@ -16,7 +16,6 @@ import HoverCardFetch from "@/components/hover-card-fetch";
 import { pessoaService, type Pessoa, type PessoaSimples } from "@/services/pessoas";
 import { CategoriaFinalidade, categoriasService, type Categoria, type CategoriaSimples } from "@/services/categorias";
 import { Button } from "@/components/ui/button";
-import { Dialog, DialogContent, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 
 export default function ManagerTransacoes() {
   const [dialogOpen, setDialogOpen] = useState(false);
@@ -165,20 +164,20 @@ export default function ManagerTransacoes() {
   return (
     <>
       <div className="flex flex-col items-end">
-        <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
-          <DialogTrigger>
+        <Dialog.Root open={dialogOpen} onOpenChange={setDialogOpen}>
+          <Dialog.Trigger>
             <Button className="!min-w-30 bg-green-500 text-white hover:bg-green-600">
               Criar
             </Button>
-          </DialogTrigger>
-          <DialogContent>
-            <DialogTitle>Nova Transacao</DialogTitle>
+          </Dialog.Trigger>
+          <Dialog.Content maxWidth="500px">
+            <Dialog.Title>Nova Transacao</Dialog.Title>
             <ManagerTransacaoForm
               onCreated={() => setDialogOpen(false)}
               onCancel={() => setDialogOpen(false)}
             />
-          </DialogContent>
-        </Dialog>
+          </Dialog.Content>
+        </Dialog.Root>
 
       </div>
       <DataTable table={table} dataQuery={dataQuery} />
