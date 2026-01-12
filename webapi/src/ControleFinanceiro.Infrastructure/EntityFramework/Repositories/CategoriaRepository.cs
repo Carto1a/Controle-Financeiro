@@ -18,6 +18,13 @@ public class CategoriaRepository(AppDbContext context) : ICategoriaRepository
 
     public Task<Categoria?> BuscarPorIdAsync(Guid id, CancellationToken cancellationToken = default)
     {
-        return _context.Categorias.Where(x => x.Id == id).FirstOrDefaultAsync(cancellationToken);
+        return _context.Categorias.Where(x => x.Id == id)
+            .Select(x => new Categoria(
+                x.Id,
+                x.Nome,
+                x.Descricao,
+                EF.Property<Finalidade>(x, "FinalidadeId"))
+            )
+            .FirstOrDefaultAsync(cancellationToken);
     }
 }
