@@ -12,7 +12,7 @@ services:
       db:
         condition: service_healthy
     environment:
-      ConnectionStrings__Database: Host=db;Port=5432;Username=${DB_USER};Password=${DB_PASSWORD};Database=ControleFinanceiro
+      ConnectionStrings__Database: Host=${DB_HOST};Port=${DB_PORT};Username=${DB_USER};Password=${DB_PASSWORD};Database=${DB_NAME}
       FRONTEND_URL: http://frontend:8080
 
   frontend:
