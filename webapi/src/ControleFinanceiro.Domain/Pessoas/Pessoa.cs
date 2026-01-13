@@ -20,6 +20,7 @@ public class Pessoa : AggregateRoot
         DataNascimento = dataNascimento;
     }
 
+    // Factory method para criar uma pessoa, já validando dados
     public static Result<Pessoa> Criar(string nome, DateTime dataNascimento)
     {
         var validacoes = Validar(nome, dataNascimento);
@@ -40,6 +41,7 @@ public class Pessoa : AggregateRoot
         return Result.Ok();
     }
 
+    // Marca a pessoa como deletada, dispara evento de domínio antes de salvar no banco
     public void MarcarDeletada()
     {
         AddDomainEvent(new PessoaDeletadaEvent(Id));

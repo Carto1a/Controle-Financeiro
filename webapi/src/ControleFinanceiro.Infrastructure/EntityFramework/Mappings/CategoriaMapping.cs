@@ -11,6 +11,10 @@ public class CategoriaMapping : IEntityTypeConfiguration<Categoria>
     {
         builder.ToTable("Categorias");
 
+        // Mapeia a propriedade Finalidade como shadow property "FinalidadeId".
+        // Aqui foi usado shadow property apenas para simplificar o mapeamento, sem criar
+        // um model separado, já que Finalidade é um valor derivado do domínio.
+        // Em projetos maiores, poderia ser model completo, mas para este caso funcionou bem assim.
         builder.Property<Finalidade>("FinalidadeId");
 
         builder.HasOne<FinalidadeModel>()

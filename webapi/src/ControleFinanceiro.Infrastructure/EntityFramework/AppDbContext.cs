@@ -7,6 +7,13 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ControleFinanceiro.Infrastructure.EntityFramework;
 
+/// <summary>
+/// Contexto do EF para o sistema.
+///
+/// Observações importantes:
+/// - Ao salvar alterações, publica todos os DomainEvents registrados nos AggregateRoots.
+/// - Segue o padrão DDD, mantendo regras de negócio encapsuladas nos agregados.
+/// </summary>
 public class AppDbContext : DbContext
 {
     private readonly IServiceProvider _serviceProvider;
@@ -45,6 +52,11 @@ public class AppDbContext : DbContext
         return result;
     }
 
+    /// <summary>
+    /// Publica todos os DomainEvents de agregados registrados no ChangeTracker.
+    /// - Mantém a regra de negócio no domínio.
+    /// - Permite que side-effects (como deletar transações ao remover uma pessoa) sejam tratados por handlers.
+    /// </summary>
     private async Task PublishDomainEvents(CancellationToken cancellationToken)
     {
         var domainEvents = ChangeTracker

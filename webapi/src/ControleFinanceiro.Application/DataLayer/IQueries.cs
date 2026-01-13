@@ -3,6 +3,14 @@ using ControleFinanceiro.Application.UseCases;
 
 namespace ControleFinanceiro.Application.DataLayer;
 
+/// <summary>
+/// Interface para consultas (queries) do sistema.
+///
+/// Segue o conceito de **CQRS** (Command Query Responsibility Segregation), separando consultas de comandos.
+///
+/// Como o sistema possui poucas queries, todas foram agrupadas nesta interface
+/// para simplificar a organização sem perder clareza.
+/// </summary>
 public interface IQueries
 {
     Task<List<ObterListaCategoriasBasicaResponse>> ObterListaCategoriasBasica(CancellationToken cancellationToken = default);

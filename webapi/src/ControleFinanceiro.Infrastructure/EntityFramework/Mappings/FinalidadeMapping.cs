@@ -5,6 +5,10 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace ControleFinanceiro.Infrastructure.EntityFramework.Mappings;
 
+/// <summary>
+/// Configuração do mapeamento da entidade FinalidadeModel para EF Core.
+/// Cria a tabela "Finalidades" e popula com os valores do enum Finalidade.
+/// </summary>
 public class FinalidadeMapping : IEntityTypeConfiguration<FinalidadeModel>
 {
     public void Configure(EntityTypeBuilder<FinalidadeModel> builder)

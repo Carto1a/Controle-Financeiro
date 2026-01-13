@@ -6,6 +6,15 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ControleFinanceiro.Infrastructure.EntityFramework;
 
+/// <summary>
+/// Implementação das queries de leitura usando EF.
+///
+/// Observações importantes:
+/// - Todas as queries usam AsNoTracking() porque são consultas de leitura apenas.
+///   Isso melhora a performance e reduz o consumo de memória, pois o EF Core não precisa rastrear alterações das entidades.
+/// - O padrão segue o conceito de CQRS: separa leitura (queries) da escrita (commands/services).
+/// - Como o sistema não possui muitas queries, todas estão concentradas nesta classe para simplificação.
+/// </summary>
 public class Queries(AppDbContext context) : IQueries
 {
     private readonly AppDbContext _context = context;

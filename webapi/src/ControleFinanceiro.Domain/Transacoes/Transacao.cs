@@ -24,6 +24,7 @@ public class Transacao : AggregateRoot
         CriadoEm = criadoEm;
     }
 
+    // Factory method para criar uma pessoa, já validando dados
     internal static Result<Transacao> Criar(string descricao, decimal valor, TipoTransacao tipoTransacao, Guid categoriaId, DateTime? data)
     {
         if (string.IsNullOrWhiteSpace(descricao))

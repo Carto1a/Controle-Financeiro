@@ -22,6 +22,9 @@ public interface IPagination
     int TamanhoPagina { get; }
 }
 
+/// <summary>
+/// Implementação concreta de paginação com validação.
+/// </summary>
 public record Pagination(int Pagina, int TamanhoPagina) : IPagination
 {
     public int Pagina { get; } = Pagina;
@@ -43,6 +46,10 @@ public record Pagination(int Pagina, int TamanhoPagina) : IPagination
     }
 }
 
+/// <summary>
+/// Resposta paginada genérica para queries do sistema.
+/// Contém informações de paginação e os itens da página.
+/// </summary>
 public record PaginatedResponse<T>
 {
     public int Page { get; init; }

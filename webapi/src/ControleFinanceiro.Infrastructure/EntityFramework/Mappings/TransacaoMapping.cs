@@ -11,6 +11,8 @@ public class TransacaoMapping : IEntityTypeConfiguration<Transacao>
     {
         builder.ToTable("Transacoes");
 
+        // Mapeia TipoTransacao como shadow property "TipoTransacaoId"
+        // Evita criar uma propriedade de navegação explícita, simplificando o projeto
         builder.Property<TipoTransacao>("TipoTransacaoId");
 
         builder.HasOne<TipoTransacaoModel>()

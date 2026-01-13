@@ -18,6 +18,7 @@ public class Categoria
         Finalidade = finalidade;
     }
 
+    // Factory method para criar uma categoria, já validando dados
     public static Result<Categoria> Criar(string nome, string descricao, Finalidade finalidade)
     {
         if (string.IsNullOrWhiteSpace(descricao))

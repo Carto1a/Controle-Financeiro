@@ -2,6 +2,10 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ControleFinanceiro.Infrastructure.Middlewares;
 
+/// <summary>
+/// Middleware global para tratamento de exceções na API.
+/// Captura exceções não tratadas, registra no log e retorna uma resposta padronizada.
+/// </summary>
 public class ExceptionHandlingMiddleware(RequestDelegate next, ILogger<ExceptionHandlingMiddleware> logger)
 {
     private readonly RequestDelegate _next = next;

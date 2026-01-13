@@ -1,5 +1,10 @@
 namespace ControleFinanceiro.Domain;
 
+/// <summary>
+/// Classe base para todos os agregados do domínio.
+///
+/// Mantém uma lista de eventos de domínio que podem ser disparados pelo agregado.
+/// </summary>
 public abstract class AggregateRoot
 {
     private readonly List<IDomainEvent> _events = [];
