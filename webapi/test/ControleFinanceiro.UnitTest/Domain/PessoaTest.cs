@@ -19,7 +19,7 @@ public class PessoaTests
         Assert.NotNull(result.Value);
         Assert.Equal(nome, result.Value.Nome);
         Assert.Equal(dataNascimento, result.Value.DataNascimento);
-        Assert.Empty(result.Value.Transacaos);
+        Assert.Empty(result.Value.Transacoes);
         Assert.NotEqual(Guid.Empty, result.Value.Id);
     }
 
